@@ -1,0 +1,30 @@
+name: Check official Arena sources
+
+on:
+  schedule:
+    - cron: '17 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: official-source-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Validate schedule and source checker
+        run: node --test tests/*.test.mjs
+      - name: Check sources and flag changes for review
+        run: node scripts/check-sources.mjs --github-issue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

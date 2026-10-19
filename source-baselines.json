@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "sources": {
+    "set": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/reality-fracture-event-schedule",
+      "fingerprint": "5e7f2198d3ff47a9a9e13fb8c7707eba128ab6a2dc0793d0c721f85cc9f6638e",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "announcements": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
+      "fingerprint": "dca79bc0ead83035756fb8257c88700c7e65335ef396f85efde6cfe79a81672a",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "qualifiers": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/qualifier-play-ins-and-qualifier-weekend-information",
+      "fingerprint": "03b13a009fc1350d8e15755993935f3bdcb505e2983f5c609eb77e6e9f0c4f9b",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "direct": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
+      "fingerprint": "58c1b2c7eda3cfbf2775ce282b6e75a479fb4824882c21fb62584a887b4f0a98",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "formats": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/state-of-the-formats-2026",
+      "fingerprint": "9764444d85c1c791542b40c2315f70394396a5944cdbfe61f74358d54aef6bd4",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "draftGuide": {
+      "url": "https://magic.wizards.com/en/mtgarena/draft",
+      "fingerprint": "20e00dce1edffba594a6892d74cd7ab33dc6d721001b0fc1d03a1513d91bbd4c",
+      "acceptedAt": "2026-10-19T04:05:58.265Z"
+    },
+    "news": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena",
+      "fingerprint": "e46e852668babca081701a9a8aa2109a0df5912eb7bfba4269a5b5f1baee2ea5",
+      "acceptedAt": "2026-10-19T04:07:03.502Z",
+      "links": [
+        "https://magic.wizards.com/en/news/mtg-arena/alchemy-reality-fracture-spellbook",
+        "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
+        "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
+        "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
+        "https://magic.wizards.com/en/news/mtg-arena/arena-limited-championship-terms-and-conditions"
+      ]
+    }
+  }
+}
