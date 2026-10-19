@@ -55,9 +55,6 @@ function statusLabel(event, now) {
   if (status === 'entry-closed') return { text: 'Entry closed', style: 'warning' };
   if (status === 'live') return { text: 'Live now', style: 'live' };
   if (status === 'boundary') return { text: 'Time unconfirmed', style: '' };
-  if (design === 'schedule') {
-    return { text: status === 'upcoming' ? 'Upcoming' : 'Scheduled', style: '' };
-  }
   if (design === 'ledger') {
     return { text: event.start.length === 10 || event.end?.length === 10 ? 'Date only' : 'Exact times', style: '' };
   }
@@ -71,23 +68,23 @@ function eventRow(event, now) {
   const dateRange = `${formatDate(event.start, state.timezone)}${event.end ? ` - ${formatDate(event.end, state.timezone)}` : ' onward'}`;
   const name = element('span');
   name.className = 'event-name';
-  name.append(element('span', 'event-title', event.name));
-  name.append(element('span', 'event-format', [event.format, design === 'schedule' ? `${event.category === 'limited' ? 'Limited' : 'Constructed'}${event.competitive ? ' / Competitive' : ''}` : event.match].filter(Boolean).join(' / ')));
+  const heading = element('span', 'event-heading');
+  heading.append(element('span', 'event-title', event.name));
+  if (design === 'schedule' && event.match) heading.append(element('span', 'match-type', event.match));
+  name.append(heading, element('span', 'event-format', [event.format, design === 'schedule' ? (event.competitive ? 'Competitive' : '') : event.match].filter(Boolean).join(' / ')));
   if (design === 'schedule') {
-    const label = statusLabel(event, now);
-    const status = element('span', `schedule-status ${label.style}`, label.text);
-    const match = element('span', `match-type${event.match ? '' : ' unconfirmed'}`, event.match || 'Not confirmed');
-    match.dataset.label = 'Match type';
+    const category = element('span', 'event-category', event.category === 'limited' ? 'Limited' : 'Constructed');
     const dates = element('span', 'schedule-dates');
     dates.append(element('span', 'date-range', dateRange));
     if (event.start.length !== 10) {
       dates.append(element('span', 'exact-start', `Starts ${formatDate(event.start, state.timezone, true)}`));
     }
-    dates.append(element('span', 'entry-cutoff', event.entryCloses
+    dates.append(element('span', `entry-cutoff${event.conflict ? ' date-warning' : ''}`, event.entryCloses
       ? `Entry closes ${formatDate(event.entryCloses, state.timezone, true)}`
       : event.conflict ? 'End date needs confirmation'
         : event.start.length === 10 || event.end?.length === 10 ? 'Exact times not announced' : 'Expand for end time'));
-    summary.append(status, name, match, dates);
+    if (eventStatus(event, now) === 'entry-closed') dates.append(element('span', 'date-warning', 'Entry closed'));
+    summary.append(name, category, dates);
   } else if (design === 'ledger') {
     const start = element('span', 'ledger-date', formatDate(event.start, state.timezone));
     const end = element('span', 'ledger-date', event.end ? formatDate(event.end, state.timezone) : 'Unconfirmed');
@@ -208,7 +205,7 @@ function render() {
     if (['ledger', 'schedule'].includes(design) && groups[group].length) {
       const headings = element('div', design === 'schedule' ? 'schedule-columns' : 'ledger-headings');
       headings.setAttribute('aria-hidden', 'true');
-      (design === 'schedule' ? ['STATUS', 'EVENT / FORMAT', 'MATCH TYPE', 'DATES / ENTRY CUTOFF', ''] : ['EVENT / FORMAT', 'STARTS', 'ENDS', 'DATA STATUS', '']).forEach(text => headings.append(element('span', '', text)));
+      (design === 'schedule' ? ['EVENT / FORMAT', 'CATEGORY', 'DATES / ENTRY CUTOFF', ''] : ['EVENT / FORMAT', 'STARTS', 'ENDS', 'DATA STATUS', '']).forEach(text => headings.append(element('span', '', text)));
       nodes.unshift(headings);
     }
     $(selector).replaceChildren(...nodes);
@@ -220,6 +217,7 @@ function render() {
     const available = Object.values(groupEvents(data.events, { ...state, category: 'all' }, now)).flat();
     document.querySelectorAll('[data-category-count]').forEach(label => {
       label.textContent = label.dataset.categoryCount === 'all' ? available.length : available.filter(event => event.category === label.dataset.categoryCount).length;
+      label.closest('button').title = `${label.textContent} current, upcoming, and needs-confirmation listings matching the search and competitive filter`;
     });
   }
   if (design === 'agenda') $('#upcoming-caption').textContent = state.window === 'all' ? 'Grouped by start day' : `Next ${state.window} calendar days / current events unchanged`;

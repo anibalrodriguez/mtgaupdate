@@ -16,30 +16,38 @@
     "direct": {
       "title": "Arena Direct for Reality Fracture, October 23-November 1",
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct"
+    },
+    "formats": {
+      "title": "MTG Arena State of the Formats 2026 - Premier and Traditional Draft structures",
+      "url": "https://magic.wizards.com/en/news/mtg-arena/state-of-the-formats-2026"
+    },
+    "draftGuide": {
+      "title": "MTG Arena Draft Guide - Quick Draft match structure and entry fee",
+      "url": "https://magic.wizards.com/en/mtgarena/draft"
     }
   },
   "events": [
-    {"id":"premier-fra","name":"Premier Draft","format":"Reality Fracture","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"premier-alchemy","name":"Premier Draft","format":"Alchemy: Reality Fracture","category":"limited","start":"2026-10-13","end":"2026-11-03","sources":["announcements","set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"premier-fra","name":"Premier Draft","format":"Reality Fracture","match":"BO1","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
+    {"id":"premier-alchemy","name":"Premier Draft","format":"Alchemy: Reality Fracture","match":"BO1","category":"limited","start":"2026-10-13","end":"2026-11-03","sources":["announcements","set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"pick-two","name":"Pick-Two Draft","format":"Reality Fracture","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"traditional","name":"Traditional Draft","format":"Reality Fracture","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"traditional","name":"Traditional Draft","format":"Reality Fracture","match":"BO3","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"sealed","name":"Sealed","format":"Reality Fracture","category":"limited","start":"2026-09-29","end":"2026-10-27","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"quick-fra-oct","name":"Quick Draft","format":"Reality Fracture","category":"limited","start":"2026-10-08","end":"2026-10-18","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"quick-fra-oct","name":"Quick Draft","format":"Reality Fracture","match":"BO1","cost":"5,000 gold / 750 gems","category":"limited","start":"2026-10-08","end":"2026-10-18","sources":["set","draftGuide"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"bot-alchemy","name":"Bot Draft","format":"Alchemy: Reality Fracture","category":"limited","start":"2026-10-18","end":"2026-10-19","sources":["announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"quick-aetherdrift","name":"Quick Draft","format":"Aetherdrift","category":"limited","start":"2026-10-19","end":"2026-10-26","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"flashback-vow","name":"Flashback Premier Draft","format":"Innistrad: Crimson Vow","category":"limited","start":"2026-10-20","end":"2026-10-26","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"quick-aetherdrift","name":"Quick Draft","format":"Aetherdrift","match":"BO1","cost":"5,000 gold / 750 gems","category":"limited","start":"2026-10-19","end":"2026-10-26","sources":["set","draftGuide"],"verifiedAt":"2026-10-19T03:32:49Z"},
+    {"id":"flashback-vow","name":"Flashback Premier Draft","format":"Innistrad: Crimson Vow","match":"BO1","category":"limited","start":"2026-10-20","end":"2026-10-26","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"cube","name":"Arena Powered Cube","format":"Cube Draft","category":"limited","start":"2026-10-20","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"mwm-gift","name":"Midweek Magic","format":"Gift Bag Standard","category":"constructed","start":"2026-10-20","end":"2026-10-21","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"brawl-challenge","name":"Metagame Challenge","format":"Competitive Brawl","category":"constructed","start":"2026-10-23","end":"2026-10-25","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"play-in-bo1","name":"Qualifier Play-In","format":"Standard","match":"BO1","category":"constructed","start":"2026-10-24T13:00:00Z","entryCloses":"2026-10-25T13:00:00Z","end":"2026-10-25T16:00:00Z","cost":"20,000 gold / 4,000 gems / 20 Play-In Points","competitive":true,"note":"Matchmaking closes October 25 at 15:00 UTC, one hour before the final event finish. Check the official participation requirements.","sources":["qualifiers","announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"play-in-bonus","name":"Bonus Qualifier Play-In","format":"Reality Fracture Sealed","match":"BO1","category":"limited","start":"2026-10-25","end":"2026-10-25","competitive":true,"sources":["announcements","qualifiers"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"quick-fra-nov","name":"Quick Draft","format":"Reality Fracture","category":"limited","start":"2026-10-27","end":"2026-11-06","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"flashback-mid","name":"Flashback Premier Draft","format":"Innistrad: Midnight Hunt","category":"limited","start":"2026-10-27","end":"2026-11-02","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"quick-fra-nov","name":"Quick Draft","format":"Reality Fracture","match":"BO1","cost":"5,000 gold / 750 gems","category":"limited","start":"2026-10-27","end":"2026-11-06","sources":["set","draftGuide"],"verifiedAt":"2026-10-19T03:32:49Z"},
+    {"id":"flashback-mid","name":"Flashback Premier Draft","format":"Innistrad: Midnight Hunt","match":"BO1","category":"limited","start":"2026-10-27","end":"2026-11-02","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"mwm-cascade","name":"Midweek Magic","format":"Cascade Brawl","category":"constructed","start":"2026-10-27","end":"2026-10-28","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"play-in-bo3","name":"Qualifier Play-In","format":"Standard","match":"BO3","category":"constructed","start":"2026-10-30","end":"2026-10-31","competitive":true,"cost":"20,000 gold / 4,000 gems / 20 Play-In Points","note":"The official table and detailed timeline disagree on Saturday entry and finish times. Exact deadlines are deliberately withheld; check the official page and Arena client.","sources":["qualifiers","announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"omniscience","name":"Omniscience Draft","format":"Reality Fracture","category":"limited","start":"2026-10-30","end":"2026-11-01","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"weekend","name":"Qualifier Weekend","format":"Standard","match":"BO3","category":"constructed","start":"2026-10-31","end":"2026-11-01","competitive":true,"cost":"Qualification required","note":"Separate entry windows apply each day. A Day One token is required; advancing to Day Two requires qualifying on Day One. Review the official timeline before entering.","sources":["qualifiers","announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
-    {"id":"flashback-pioneer","name":"Flashback Premier Draft","format":"Pioneer Masters","category":"limited","start":"2026-11-03","end":"2026-11-10","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"flashback-pioneer","name":"Flashback Premier Draft","format":"Pioneer Masters","match":"BO1","category":"limited","start":"2026-11-03","end":"2026-11-10","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"mwm-bot","name":"Midweek Magic","format":"Reality Fracture Bot Draft","category":"limited","start":"2026-11-03","end":"2026-11-04","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"standard-challenge","name":"Metagame Challenge","format":"Standard","category":"constructed","start":"2026-11-06","end":"2026-11-08","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"direct-eoe","name":"Arena Direct","format":"Edge of Eternities","category":"limited","start":"2026-11-06","end":"2026-11-08","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
