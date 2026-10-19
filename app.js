@@ -83,6 +83,7 @@ function eventRow(event, now) {
       ? `Entry closes ${formatDate(event.entryCloses, state.timezone, true)}`
       : event.conflict ? 'End date needs confirmation'
         : event.start.length === 10 || event.end?.length === 10 ? 'Exact times not announced' : 'Expand for end time'));
+    if (event.conflict && event.end) dates.append(element('span', 'date-warning', 'Published dates disagree; see details'));
     if (eventStatus(event, now) === 'entry-closed') dates.append(element('span', 'date-warning', 'Entry closed'));
     summary.append(name, category, dates);
   } else if (design === 'ledger') {
@@ -109,7 +110,7 @@ function eventRow(event, now) {
   const body = element('div', 'event-body');
   const facts = element('dl');
   fact(facts, 'Starts', formatDate(event.start, state.timezone, true));
-  fact(facts, 'Ends', event.end ? formatDate(event.end, state.timezone, true) : 'Conflicting official dates');
+  fact(facts, event.conflict && event.end ? 'Published end (disputed)' : 'Ends', event.end ? formatDate(event.end, state.timezone, true) : 'Conflicting official dates');
   fact(facts, 'Entry closes', event.entryCloses ? formatDate(event.entryCloses, state.timezone, true) : 'Not confirmed in the reviewed sources');
   fact(facts, 'Entry cost', event.cost || 'Not confirmed in the reviewed sources');
   fact(facts, 'Match structure', event.match || 'Not confirmed in the reviewed sources');

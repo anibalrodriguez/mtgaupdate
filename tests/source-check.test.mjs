@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inspectSources, reviewBody, sourceFingerprint, updateReviewIssue } from '../scripts/check-sources.mjs';
+import { inspectNewArticles, inspectSources, reviewBody, sourceFingerprint, updateReviewIssue } from '../scripts/check-sources.mjs';
 
 const source = { title: 'Test official schedule', url: 'https://magic.wizards.com/en/news/mtg-arena/test' };
 const text = 'A draft event starts October 20 and ends October 26. '.repeat(5);
@@ -39,6 +39,76 @@ test('fetch comparison flags changed, new, and moved sources without mutating ac
   assert.equal((await inspectSources({ schedule: source }, saved, async () => response(original)))[0].status, 'changed');
 });
 
+test('schedule evidence retains conflicting headlines and detailed deadlines without copying whole articles', () => {
+  const html = page(`
+    <h2>Arena Direct: October 23-November 1</h2>
+    <p><strong>Start</strong> : October 23, 2026, at 8 a.m. Pacific / 15:00 UTC</p>
+    <p><strong>Signups End</strong> : November 2, 2026, at 8 a.m. Pacific / 16:00 UTC\u2014Matches may finish.</p>
+    <p><strong>Event End</strong> : November 2, 2026, at 11 a.m. Pacific / 19:00 UTC or once the entry limit is reached.</p>
+    <p>${'Unrelated article prose. '.repeat(30)}</p>
+    <script>November 3 is not article content.</script>`);
+  const result = sourceFingerprint(html, source);
+  assert.ok(result.scheduleDetails.some(detail => detail === 'Arena Direct: October 23-November 1'));
+  assert.ok(result.scheduleDetails.some(detail => detail.includes('Signups End : November 2, 2026') && detail.includes('16:00 UTC')));
+  assert.ok(result.scheduleDetails.some(detail => detail.includes('Event End : November 2, 2026') && detail.includes('19:00 UTC')));
+  assert.doesNotMatch(JSON.stringify(result.scheduleDetails), /Unrelated article prose|November 3|Matches may finish/);
+});
+
+test('review reports compare accepted date evidence with current evidence and disputed published listings', async () => {
+  const original = page(`<h2>Arena Direct</h2><p>Event end: November 1, 2026, at 19:00 UTC</p><p>${text}</p>`);
+  const saved = baseline(original);
+  const events = [{ id: 'direct', name: 'Arena Direct', format: 'Sealed', start: '2026-10-23T15:00:00Z', end: null, conflict: true, note: 'Headlines disagree with detailed deadlines.', sources: ['schedule'] }];
+  const before = structuredClone({ saved, events });
+  const results = await inspectSources({ schedule: source }, saved, async (url, options) => {
+    assert.equal(options.headers['Cache-Control'], 'no-cache');
+    return response(original.replace('November 1, 2026', 'November 2, 2026'));
+  }, events);
+  const report = reviewBody(results, 'now');
+  assert.match(report, /Previously accepted: Arena Direct: Event end: November 1/);
+  assert.match(report, /Currently published: Arena Direct: Event end: November 2/);
+  assert.match(report, /\| Arena Direct - Sealed \(direct\) \| 2026-10-23T15:00:00Z \| Unconfirmed \| Unconfirmed \| Dates disputed \|/);
+  assert.match(report, /Headlines disagree with detailed deadlines/);
+  assert.match(report, /user approval/);
+  assert.deepEqual({ saved, events }, before);
+});
+
+test('new article discovery fetches evidence, skips known links, and exposes articles beyond its request limit', async () => {
+  const url = id => `https://magic.wizards.com/en/news/mtg-arena/${id}`;
+  const links = ['old', 'tracked', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth'].map(url);
+  const news = { id: 'news', url: 'https://magic.wizards.com/en/news/mtg-arena', title: 'News', kind: 'arena-index', status: 'changed', links };
+  const sources = { tracked: { url: url('tracked') } };
+  const saved = { sources: { news: { links: [url('old')] } } };
+  const calls = [];
+  const results = await inspectNewArticles([news], sources, saved, async target => {
+    calls.push(target);
+    return response(page(`<h2>Qualifier Play-In</h2><ul><li>November 14: Best-of-One</li></ul><p>${text}</p>`));
+  });
+  assert.deepEqual(calls, ['first', 'second', 'third', 'fourth', 'fifth'].map(url));
+  assert.deepEqual(news.deferredLinks, [url('sixth')]);
+  assert.ok(results.every(result => result.discovered && result.scheduleDetails.some(detail => detail.includes('November 14'))));
+  const report = reviewBody([news, ...results], 'now');
+  assert.match(report, /Newly discovered article/);
+  assert.match(report, /November 14/);
+  assert.match(report, /not fetched/);
+  assert.ok(report.includes(url('sixth')));
+  assert.deepEqual(saved.sources.news.links, [url('old')]);
+});
+
+test('failed new article requests and missing or truncated evidence remain explicit in review reports', async () => {
+  const news = { id: 'news', title: 'News', kind: 'arena-index', status: 'changed', url: source.url, links: [`${source.url}-new`] };
+  const failed = await inspectNewArticles([news], {}, { sources: {} }, async () => new Response('Unavailable', { status: 503 }));
+  assert.equal(failed[0].status, 'unavailable');
+  assert.match(reviewBody(failed, 'now'), /HTTP 503/);
+  const original = baseline(page());
+  const [missing] = await inspectSources({ schedule: source }, original, async () => response(page('No dated details here. '.repeat(20))));
+  assert.match(reviewBody([missing], 'now'), /No short dated schedule details could be extracted/);
+  const html = page(`<h2>Draft dates</h2><ul>${Array.from({ length: 15 }, (_, i) => `<li>November ${i + 1}: Draft event</li>`).join('')}</ul>`);
+  const [truncated] = await inspectSources({ schedule: source }, original, async () => response(html));
+  assert.equal(truncated.scheduleDetails.length, 12);
+  assert.equal(truncated.detailsTruncated, true);
+  assert.match(reviewBody([truncated], 'now'), /first 12 matching details/);
+});
+
 test('unavailable, redirected, non-HTML, and empty pages require review instead of becoming accepted content', async () => {
   for (const request of [
     async () => { throw new Error('Connection failed'); },
@@ -69,9 +139,21 @@ test('review report contains actionable changes and errors, not full articles or
   assert.match(report, /published schedule has not been updated/);
   assert.match(report, /HTTP 404/);
   assert.match(report, /--accept-baseline SOURCE_ID/);
-  assert.doesNotMatch(report, /unchanged|A draft event starts/);
+  assert.doesNotMatch(report, /Source ID: `unchanged`|A draft event starts/);
   assert.equal(reviewBody([results[2]], 'now'), '');
   assert.equal(report.split('\n')[1], reviewBody(results, 'tomorrow').split('\n')[1]);
+});
+
+test('large review reports fit the GitHub issue limit and retain approval instructions', () => {
+  const results = Array.from({ length: 20 }, (_, index) => ({
+    ...source, id: `source-${index}`, status: 'changed',
+    scheduleDetails: Array.from({ length: 12 }, (_, day) => `November ${day + 1}: ${'Draft event details. '.repeat(14)}`)
+  }));
+  const report = reviewBody(results, 'now');
+  assert.ok(report.length <= 65536);
+  assert.match(report, /Report truncated to fit GitHub/);
+  assert.match(report, /user approval/);
+  assert.ok(report.endsWith('full source articles are not copied.'));
 });
 
 test('review issues are created once, updated for new changes, and never opened when sources match', async () => {

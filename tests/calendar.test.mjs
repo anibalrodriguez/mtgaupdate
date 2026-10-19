@@ -45,6 +45,12 @@ test('conflicts and incompatible or invalid dates fail instead of inventing a ca
   }
 });
 
+test('published detailed deadlines do not enable calendar export for a disputed event', () => {
+  const event = data.events.find(event => event.id === 'direct-fra');
+  assert.match(calendarUnavailableReason(event), /conflicting dates/);
+  assert.throws(() => createCalendar(event, data.sources.direct.url, now), /conflicting dates/);
+});
+
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {
   const name = 'Draft, sealed; café 漢字 🧙\\test\r\nBEGIN:VEVENT ' + 'é'.repeat(100);
   const calendar = createCalendar({ ...data.events[0], name }, source, now);

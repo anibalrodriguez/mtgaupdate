@@ -24,6 +24,25 @@ function decodeEntities(value) {
   });
 }
 
+function scheduleEvidence(content) {
+  const details = [];
+  const date = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}\b|\b\d{4}-\d{2}-\d{2}\b/i;
+  const milestone = /^(?:event open|start|signups? (?:end|close)|entry (?:closes|window closes)|event end)\s*:/i;
+  let heading = '';
+  for (const match of content.matchAll(/<(h[1-6]|li|p|tr)\b[^>]*>([\s\S]*?)<\/\1\s*>/gi)) {
+    const text = decodeEntities(match[2].replace(/<\/(?:td|th)\s*>/gi, ' | ').replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+    const isHeading = /^h/i.test(match[1]);
+    if (isHeading) heading = text.slice(0, 120);
+    const isMilestone = milestone.test(text);
+    const candidate = isMilestone ? text.split(/\s*(?:\u2014|\bOR once\b)/i)[0].trim() : text;
+    if (!date.test(candidate) || candidate.length > 300) continue;
+    if (match[1].toLowerCase() === 'p' && !isMilestone && !/\b(?:draft|sealed|qualifier|cube)\b.*\b(?:until|through|extended|available)\b/i.test(candidate)) continue;
+    const detail = heading && !isHeading ? `${heading}: ${candidate}` : candidate;
+    if (!details.includes(detail)) details.push(detail);
+  }
+  return { scheduleDetails: details.slice(0, 12), detailsTruncated: details.length > 12 };
+}
+
 export function sourceFingerprint(html, source) {
   const url = officialUrl(source.url);
   const cleaned = html.replace(/<!--[\s\S]*?-->|<(script|style|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '');
@@ -46,14 +65,17 @@ export function sourceFingerprint(html, source) {
   }
   const text = decodeEntities(content.replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
   if (text.length < 200) throw new Error('Official page has unexpectedly little content; manual review required');
-  return { fingerprint: fingerprint(JSON.stringify({ text, links: [...new Set(links)].sort() })) };
+  return { fingerprint: fingerprint(JSON.stringify({ text, links: [...new Set(links)].sort() })), ...scheduleEvidence(content) };
 }
 
-export async function inspectSources(sources, baseline, request = fetch) {
+export async function inspectSources(sources, baseline, request = fetch, events = []) {
   return Promise.all(Object.entries(sources).map(async ([id, source]) => {
+    const listings = events.filter(event => event.sources.includes(id)).map(({ id, name, format, start, end, entryCloses, conflict, note }) => ({
+      id, name, format, start, end, entryCloses, conflict, note
+    }));
     try {
       const url = officialUrl(source.url);
-      const response = await request(url.href, { signal: AbortSignal.timeout(45000) });
+      const response = await request(url.href, { signal: AbortSignal.timeout(45000), headers: { 'Cache-Control': 'no-cache' } });
       if (!response.ok) throw new Error(`Official source returned HTTP ${response.status}`);
       if (!response.headers.get('content-type')?.includes('text/html')) throw new Error('Official source did not return HTML');
       const destination = officialUrl(response.url || url.href);
@@ -63,12 +85,31 @@ export async function inspectSources(sources, baseline, request = fetch) {
       const current = sourceFingerprint(await response.text(), source);
       const previous = baseline.sources[id];
       const status = previous?.url === source.url && previous.fingerprint === current.fingerprint ? 'unchanged' : 'changed';
-      return { id, ...source, ...current, status };
+      return {
+        id, ...source, ...current, status, listings,
+        ...(previous?.url === source.url && Array.isArray(previous.scheduleDetails) ? { previousDetails: previous.scheduleDetails } : {})
+      };
     } catch (error) {
-      return { id, ...source, status: 'unavailable', error: error.message };
+      return { id, ...source, status: 'unavailable', error: error.message, listings };
     }
   }));
 }
+
+export async function inspectNewArticles(results, sources, baseline, request = fetch) {
+  const news = results.find(source => source.kind === 'arena-index' && source.status === 'changed');
+  if (!news) return [];
+  const known = new Set(Object.values(sources).map(source => source.url));
+  const accepted = new Set(baseline.sources[news.id]?.links || []);
+  const added = news.links.filter(url => !accepted.has(url) && !known.has(url));
+  news.deferredLinks = added.slice(5);
+  const discovered = Object.fromEntries(added.slice(0, 5).map(url => [
+    `discovered-${fingerprint(url).slice(0, 12)}`,
+    { url, title: `New Arena article: ${new URL(url).pathname.split('/').pop()}`, discovered: true }
+  ]));
+  return inspectSources(discovered, { sources: {} }, request);
+}
+
+const markdownText = value => String(value).replace(/[\\`*_[\]<>|]/g, '\\$&').replace(/[\r\n]+/g, ' ');
 
 export function reviewBody(results, checkedAt) {
   const pending = results.filter(result => result.status !== 'unchanged');
@@ -77,29 +118,61 @@ export function reviewBody(results, checkedAt) {
   const lines = [
     issueMarker, `<!-- source-check-signature:${signature} -->`,
     'Official Arena sources changed or could not be checked. **The published schedule has not been updated.**',
-    '', `Detected at ${checkedAt}.`, ''
+    '', `Detected at ${checkedAt}.`, '',
+    'Flagged sources:', ...pending.map(source => `- ${markdownText(source.title)}: ${source.url}`), ''
   ];
   for (const source of pending) {
-    lines.push(`### ${source.title}`, source.url, '');
+    lines.push(`### ${markdownText(source.title)}`, source.url, '');
     if (source.status === 'unavailable') {
       lines.push(`Check failed: ${source.error}`, '');
     } else {
       lines.push(`Content or links differ from the accepted baseline. Source ID: \`${source.id}\`.`, '');
       if (source.links) lines.push('Arena articles currently linked from the news index:', ...source.links.map(link => `- ${link}`), '');
+      if (source.scheduleDetails) {
+        lines.push('**Published schedule evidence (excerpts, not an approved update)**', '');
+        if (source.previousDetails) {
+          const removed = source.previousDetails.filter(detail => !source.scheduleDetails.includes(detail));
+          const added = source.scheduleDetails.filter(detail => !source.previousDetails.includes(detail));
+          lines.push(...removed.map(detail => `- Previously accepted: ${markdownText(detail)}`), ...added.map(detail => `- Currently published: ${markdownText(detail)}`));
+          if (!removed.length && !added.length) lines.push('No change in the extracted date details; other page text or links changed.');
+        } else {
+          lines.push('No previously accepted excerpts are available for a historical date comparison.');
+        }
+        lines.push('', 'Current excerpts:', ...source.scheduleDetails.map(detail => `- ${markdownText(detail)}`), '');
+        if (!source.scheduleDetails.length) lines.push('No short dated schedule details could be extracted. This does not mean there are no event changes.', '');
+        if (source.detailsTruncated) lines.push('Only the first 12 matching details are shown; review the full source for additional dates.', '');
+      }
+      if (source.deferredLinks?.length) lines.push('Additional new articles not fetched (the checker inspects at most five per run):', ...source.deferredLinks.map(link => `- ${link}`), '');
+      if (source.discovered) lines.push('Newly discovered article: no published listing cites this source yet. Review for event additions and updates.', '');
+    }
+    if (source.listings?.length) {
+      lines.push('**Published listings citing this source (comparison only; not automatically changed)**', '',
+        '| Event | Starts | Entry closes | Ends | Status |',
+        '| --- | --- | --- | --- | --- |');
+      for (const event of source.listings.slice(0, 10)) {
+        lines.push(`| ${markdownText(`${event.name} - ${event.format} (${event.id})`)} | ${event.start} | ${event.entryCloses || 'Unconfirmed'} | ${event.end || 'Unconfirmed'} | ${event.conflict ? 'Dates disputed' : 'Published'} |`);
+      }
+      lines.push('');
+      for (const event of source.listings.slice(0, 10)) {
+        if (event.note) lines.push(`Retained note for ${markdownText(event.id)}: ${markdownText(event.note)}`, '');
+      }
+      if (source.listings.length > 10) lines.push('', `${source.listings.length - 10} additional listings cite this source; see events.json.`);
+      lines.push('');
     }
   }
-  lines.push(
+  const instructions = [
     '### Review and publish',
-    '1. Read the official pages, including new Arena announcements. A changed page does not necessarily change event dates.',
-    '2. If events changed, edit `events.json`, retain source links and date uncertainty, and update verification timestamps only for sources actually reviewed.',
+    '1. Have the reviewing assistant compare the extracted evidence, published listings, and linked detailed schedules or terms. A changed page does not necessarily change event dates; conflicting headlines and detailed deadlines must remain explicit.',
+    '2. Present a proposed event-data diff for user approval. Only after approval, edit `events.json`, add relevant newly discovered sources and citations, retain date uncertainty, and update verification timestamps only for sources actually reviewed.',
     '3. Run `node --test tests/*.test.mjs`.',
     '4. After review, accept only the reviewed source fingerprints: `node scripts/check-sources.mjs --accept-baseline SOURCE_ID ...`.',
     '5. Commit and push the reviewed changes and `source-baselines.json`, then close this issue.',
     '',
-    'The checker compares public page text and links, not event meaning. It does not parse events, verify the schedule, or publish automatically.',
-    'Only fingerprints and official URLs are stored; full source articles are not copied.'
-  );
-  return lines.join('\n');
+    'Excerpts are bounded textual evidence, not semantic verification or resolved dates. Missing excerpts and unchanged fingerprints do not prove the schedule is accurate. No event edits or deployments happen automatically.',
+    'Only fingerprints, official URLs, and short dated schedule excerpts are stored; full source articles are not copied.'
+  ].join('\n');
+  const report = lines.join('\n');
+  return `${report.length > 58000 ? `${report.slice(0, 58000)}\n\n**Report truncated to fit GitHub. See all flagged source URLs above and review additional details manually.**\n\n` : report}${instructions}`;
 }
 
 export async function updateReviewIssue(body, repository, token, request = fetch) {
@@ -153,7 +226,8 @@ async function main() {
   if (baseline.version !== 1 || !baseline.sources || typeof baseline.sources !== 'object') throw new Error('Invalid source baseline file');
   const selected = accept ? args.slice(1) : Object.keys(sources);
   if (!selected.length || selected.some(id => !Object.hasOwn(sources, id))) throw new Error('Specify valid source IDs to accept after manual review');
-  const results = await inspectSources(Object.fromEntries(selected.map(id => [id, sources[id]])), baseline);
+  const results = await inspectSources(Object.fromEntries(selected.map(id => [id, sources[id]])), baseline, fetch, data.events);
+  if (!accept) results.push(...await inspectNewArticles(results, sources, baseline));
   for (const result of results) console.log(`${result.status}: ${result.id} - ${result.url}${result.error ? ` - ${result.error}` : ''}`);
   const failed = results.some(result => result.status === 'unavailable');
   const checkedAt = new Date().toISOString();
@@ -162,7 +236,8 @@ async function main() {
     for (const result of results) {
       baseline.sources[result.id] = {
         url: result.url, fingerprint: result.fingerprint, acceptedAt: checkedAt,
-        ...(result.links ? { links: result.links } : {})
+        ...(result.links ? { links: result.links } : {}),
+        ...(result.scheduleDetails ? { scheduleDetails: result.scheduleDetails, detailsTruncated: result.detailsTruncated } : {})
       };
     }
     await writeFile(baselineUrl, `${JSON.stringify(baseline, null, 2)}\n`);

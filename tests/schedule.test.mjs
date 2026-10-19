@@ -43,6 +43,17 @@ test('timezone conversion reflects Pacific daylight saving changes', () => {
   assert.match(formatDate('2026-11-02T16:00:00Z', 'America/Los_Angeles', true), /8:00 AM PST/);
 });
 
+test('published Arena Direct deadlines remain disputed instead of making the event live', () => {
+  const event = data.events.find(event => event.id === 'direct-fra');
+  const now = new Date('2026-10-24T18:00:00Z');
+  assert.match(formatDate(event.entryCloses, 'America/Los_Angeles', true), /Nov 2, 2026, 8:00 AM PST/);
+  assert.match(formatDate(event.end, 'America/Los_Angeles', true), /Nov 2, 2026, 11:00 AM PST/);
+  assert.equal(eventStatus(event, now), 'conflict');
+  const groups = groupEvents(data.events, { category: 'limited', search: 'arena direct' }, now);
+  assert.ok(groups.conflicts.includes(event));
+  assert.ok(!groups.current.includes(event));
+});
+
 test('competitive filter combines with format and search without promoting conflicting dates', () => {
   const now = new Date('2026-10-19T12:00:00Z');
   const groups = groupEvents(data.events, { ...filters, competitive: true }, now);
@@ -71,6 +82,8 @@ test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail
   for (const mutate of [
     copy => { copy.events[0].start = '2026-02-30'; },
     copy => { copy.events[0].end = '2026-01-01'; },
+    copy => { copy.events.find(event => event.id === 'direct-fra').end = '2026-02-30'; },
+    copy => { copy.events.find(event => event.id === 'direct-fra').end = '2026-01-01'; },
     copy => { copy.events[1].id = copy.events[0].id; },
     copy => { copy.sources.set.url = 'https://example.com'; },
     copy => { copy.events.find(event => event.id === 'play-in-bo1').entryCloses = '2026-10-26T13:00:00Z'; }

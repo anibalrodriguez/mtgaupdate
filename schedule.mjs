@@ -155,10 +155,11 @@ export function validateSchedule(data) {
       || !Array.isArray(event.sources) || !event.sources.length || event.sources.some(id => !Object.hasOwn(data.sources, id))) {
       throw new Error(`Invalid event: ${event.id || 'missing ID'}`);
     }
+    if ((!event.conflict || event.end != null) && (!validDate(event.end) || event.end < event.start)) {
+      throw new Error(`Invalid end date: ${event.id}`);
+    }
     if (event.conflict) {
       if (!event.note || !validDate(event.reviewThrough) || !dateOnlyPattern.test(event.reviewThrough) || event.reviewThrough < event.start.slice(0, 10)) throw new Error(`Invalid conflict: ${event.id}`);
-    } else if (!validDate(event.end) || event.end < event.start) {
-      throw new Error(`Invalid end date: ${event.id}`);
     }
     if (event.entryCloses && (!validDate(event.entryCloses) || !timestampPattern.test(event.entryCloses)
       || dateOnlyPattern.test(event.start) || !event.end || dateOnlyPattern.test(event.end)
