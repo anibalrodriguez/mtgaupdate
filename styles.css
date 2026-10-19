@@ -86,6 +86,11 @@ dd { margin: 0; overflow-wrap: anywhere; }
 .event-note.conflict { background: var(--warning-bg); border-left-color: var(--warning-line); color: var(--warning-ink); }
 .source-links { display: flex; flex-wrap: wrap; gap: 6px 17px; font-size: 11px; }
 .event-verified { color: var(--muted); font-size: 10px; margin: 10px 0 0; }
+.calendar-action { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 16px 0 12px; }
+.calendar-button { min-height: 40px; padding: 8px 12px; border: 1px solid var(--selected-line); border-radius: 4px; background: var(--selected); color: var(--selected-ink); font-size: 12px; cursor: pointer; }
+.calendar-button:hover:not(:disabled) { border-color: var(--green); }
+.calendar-button:disabled { background: var(--surface-alt); color: var(--muted); border-color: var(--line); cursor: not-allowed; }
+.calendar-note { color: var(--muted); font-size: 10px; line-height: 1.7; margin: 0; max-width: 430px; }
 .empty { color: var(--muted); font-size: 12px; padding: 20px 3px; margin: 0; }
 .error { border: 1px solid var(--error-line); color: var(--error-ink); border-radius: 5px; padding: 15px; background: var(--error-bg); }
 footer { margin-top: 37px; border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted); font-size: 11px; }

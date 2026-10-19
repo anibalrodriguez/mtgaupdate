@@ -75,6 +75,68 @@ export function formatDate(value, timezone, detailed = false) {
   return detailed && dateOnly ? `${text} (time not announced)` : text;
 }
 
+export function calendarUnavailableReason(event) {
+  if (event.conflict || !event.end) return 'Calendar export is unavailable until the conflicting dates are resolved.';
+  if (!validDate(event.start) || !validDate(event.end) || event.end < event.start) return 'Calendar export is unavailable because the event dates are invalid.';
+  const dateOnly = dateOnlyPattern.test(event.start);
+  if (dateOnly !== dateOnlyPattern.test(event.end)) return 'Calendar export needs a consistent start and end time; this event has a mixture of date-only and exact times.';
+  if (!dateOnly && event.end === event.start) return 'Calendar export needs an end time after the start time.';
+  return '';
+}
+
+export function createCalendar(event, sourceUrl, now = new Date()) {
+  const reason = calendarUnavailableReason(event);
+  if (reason) throw new Error(reason);
+  const dateOnly = dateOnlyPattern.test(event.start);
+  const timestamp = value => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const escapeText = value => String(value).replace(/\\/g, '\\\\').replace(/\r\n|\r|\n/g, '\\n').replace(/;/g, '\\;').replace(/,/g, '\\,');
+  const description = [
+    'MTGA Update - MTG Arena event schedule.',
+    dateOnly ? 'All-day listing: exact times are not announced. The published end date is included.' : 'Event start and finish are shown at their published exact times.',
+    event.match ? `Match structure: ${event.match}` : 'Match structure: not confirmed.',
+    event.cost ? `Entry cost: ${event.cost}` : 'Entry cost: not confirmed.',
+    event.entryCloses ? `Entry closes: ${formatDate(event.entryCloses, 'UTC', true)}.` : 'Entry cutoff: not confirmed.',
+    event.note || '',
+    'Confirm details in Arena before entering. This is a one-time copy; future schedule changes will not sync.'
+  ].filter(Boolean).join('\n');
+  // iCalendar end dates are exclusive; our published date-only ranges include the last day.
+  const end = dateOnly ? new Date(`${event.end}T00:00:00Z`) : null;
+  if (end) end.setUTCDate(end.getUTCDate() + 1);
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//MTGA Update//Arena Event Schedule//EN',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    `UID:${escapeText(event.id)}@anibalrodriguez.github.io`,
+    `DTSTAMP:${timestamp(now)}`,
+    dateOnly ? `DTSTART;VALUE=DATE:${event.start.replaceAll('-', '')}` : `DTSTART:${timestamp(event.start)}`,
+    dateOnly ? `DTEND;VALUE=DATE:${end.toISOString().slice(0, 10).replaceAll('-', '')}` : `DTEND:${timestamp(event.end)}`,
+    `SUMMARY:${escapeText(`${event.name} - ${event.format}`)}`,
+    `DESCRIPTION:${escapeText(description)}`,
+    `URL:${new URL(sourceUrl).href}`,
+    'TRANSP:TRANSPARENT',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+  const encoder = new TextEncoder();
+  const fold = line => {
+    let folded = '';
+    let bytes = 0;
+    for (const character of line) {
+      const size = encoder.encode(character).length;
+      if (bytes + size > 75) {
+        folded += '\r\n ';
+        bytes = 1;
+      }
+      folded += character;
+      bytes += size;
+    }
+    return folded;
+  };
+  return `${lines.map(fold).join('\r\n')}\r\n`;
+}
+
 export function validateSchedule(data) {
   if (!data || !validDate(data.verifiedAt) || !timestampPattern.test(data.verifiedAt) || !data.sources || !Array.isArray(data.events)) {
     throw new Error('Invalid schedule metadata');

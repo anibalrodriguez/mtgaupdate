@@ -1,4 +1,4 @@
-import { dateKey, eventStatus, formatDate, groupEvents, sortEvents, upcomingInWindow, validateSchedule } from './schedule.mjs';
+import { calendarUnavailableReason, createCalendar, dateKey, eventStatus, formatDate, groupEvents, sortEvents, upcomingInWindow, validateSchedule } from './schedule.mjs';
 
 const $ = selector => document.querySelector(selector);
 const requestedDesign = new URLSearchParams(location.search).get('design');
@@ -121,6 +121,34 @@ function eventRow(event, now) {
     body.append(element('p', 'event-note', 'Dates are published without exact times. They are shown as written, not converted to midnight or shifted to your timezone. Confirm availability in Arena.'));
   }
   if (event.note) body.append(element('p', `event-note${event.conflict ? ' conflict' : ''}`, event.note));
+  const calendar = element('div', 'calendar-action');
+  const calendarButton = element('button', 'calendar-button', 'Add to calendar');
+  calendarButton.type = 'button';
+  calendarButton.setAttribute('aria-label', `Add ${event.name} - ${event.format} to calendar`);
+  const unavailable = calendarUnavailableReason(event);
+  calendarButton.disabled = Boolean(unavailable);
+  const calendarNote = element('p', 'calendar-note', unavailable || `${event.start.length === 10 ? 'Added as an all-day event. ' : ''}Downloads an .ics file. Future changes will not sync.`);
+  calendarNote.id = `calendar-note-${event.id}`;
+  calendarButton.setAttribute('aria-describedby', calendarNote.id);
+  if (!unavailable) calendarButton.addEventListener('click', () => {
+    try {
+      const content = createCalendar(event, data.sources[event.sources[0]].url);
+      const url = URL.createObjectURL(new Blob([content], { type: 'text/calendar;charset=utf-8' }));
+      const link = element('a');
+      link.href = url;
+      link.download = `${event.id.replace(/[^a-z0-9_-]/gi, '-')}.ics`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      console.error('Unable to export the Arena event:', error);
+      calendarNote.textContent = 'The calendar file could not be created. Please reload the page and try again.';
+      calendarNote.setAttribute('role', 'alert');
+    }
+  });
+  calendar.append(calendarButton, calendarNote);
+  body.append(calendar);
   const links = element('div', 'source-links');
   event.sources.forEach((id, index) => {
     const source = data.sources[id];
