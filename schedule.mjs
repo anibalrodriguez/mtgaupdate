@@ -92,7 +92,7 @@ export function createCalendar(event, sourceUrl, now = new Date()) {
   const escapeText = value => String(value).replace(/\\/g, '\\\\').replace(/\r\n|\r|\n/g, '\\n').replace(/;/g, '\\;').replace(/,/g, '\\,');
   const description = [
     'MTGA Update - MTG Arena event schedule.',
-    dateOnly ? 'All-day listing: exact times are not announced. The published end date is included.' : 'Event start and finish are shown at their published exact times.',
+    dateOnly ? 'All-day listing: exact times are not announced. The published end date is included.' : 'Event start and end follow the reviewed schedule. Read the event notes for match cutoffs or early-closure conditions.',
     event.match ? `Match structure: ${event.match}` : 'Match structure: not confirmed.',
     event.cost ? `Entry cost: ${event.cost}` : 'Entry cost: not confirmed.',
     event.entryCloses ? `Entry closes: ${formatDate(event.entryCloses, 'UTC', true)}.` : 'Entry cutoff: not confirmed.',

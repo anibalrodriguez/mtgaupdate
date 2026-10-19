@@ -31,7 +31,7 @@ test('filtering excludes expired events and keeps conflicts out of the current s
   const groups = groupEvents(data.events, filters, now);
   assert.equal(groups.current.some(event => event.id === 'quick-fra-oct'), false);
   assert.equal(groups.current.some(event => event.conflict), false);
-  assert.equal(groups.conflicts.length, 2);
+  assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'innistrad' }, now);
   assert.equal(limited.current.length, 0);
   assert.equal(limited.upcoming.length, 2);
@@ -43,15 +43,22 @@ test('timezone conversion reflects Pacific daylight saving changes', () => {
   assert.match(formatDate('2026-11-02T16:00:00Z', 'America/Los_Angeles', true), /8:00 AM PST/);
 });
 
-test('published Arena Direct deadlines remain disputed instead of making the event live', () => {
+test('reviewed Arena Direct moves to the schedule while Contender retains its disputed range', () => {
   const event = data.events.find(event => event.id === 'direct-fra');
   const now = new Date('2026-10-24T18:00:00Z');
   assert.match(formatDate(event.entryCloses, 'America/Los_Angeles', true), /Nov 2, 2026, 8:00 AM PST/);
   assert.match(formatDate(event.end, 'America/Los_Angeles', true), /Nov 2, 2026, 11:00 AM PST/);
-  assert.equal(eventStatus(event, now), 'conflict');
+  assert.equal(eventStatus(event, new Date('2026-10-19T18:00:00Z')), 'upcoming');
+  assert.equal(eventStatus(event, now), 'live');
+  assert.equal(eventStatus(event, new Date(event.entryCloses)), 'entry-closed');
+  assert.equal(eventStatus(event, new Date(event.end)), 'expired');
   const groups = groupEvents(data.events, { category: 'limited', search: 'arena direct' }, now);
-  assert.ok(groups.conflicts.includes(event));
-  assert.ok(!groups.current.includes(event));
+  assert.ok(groups.current.includes(event));
+  assert.ok(!groups.conflicts.includes(event));
+  const contender = data.events.find(event => event.id === 'contender');
+  assert.equal(eventStatus(contender, now), 'conflict');
+  assert.equal(formatDate(contender.end, 'UTC'), 'Nov 11');
+  assert.equal(contender.entryCloses, undefined);
 });
 
 test('competitive filter combines with format and search without promoting conflicting dates', () => {
@@ -60,10 +67,10 @@ test('competitive filter combines with format and search without promoting confl
   assert.equal(groups.current.length, 0);
   assert.ok(groups.upcoming.some(event => event.id === 'play-in-bo1'));
   assert.equal(groups.upcoming.some(event => event.id === 'quick-aetherdrift'), false);
-  assert.deepEqual(groups.conflicts.map(event => event.id), ['contender', 'direct-fra']);
+  assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov']);
-  assert.deepEqual(limited.conflicts.map(event => event.id), ['direct-fra']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov']);
+  assert.deepEqual(limited.conflicts.map(event => event.id), []);
   assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 28);
 });
 
@@ -82,8 +89,8 @@ test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail
   for (const mutate of [
     copy => { copy.events[0].start = '2026-02-30'; },
     copy => { copy.events[0].end = '2026-01-01'; },
-    copy => { copy.events.find(event => event.id === 'direct-fra').end = '2026-02-30'; },
-    copy => { copy.events.find(event => event.id === 'direct-fra').end = '2026-01-01'; },
+    copy => { copy.events.find(event => event.id === 'contender').end = '2026-02-30'; },
+    copy => { copy.events.find(event => event.id === 'contender').end = '2026-01-01'; },
     copy => { copy.events[1].id = copy.events[0].id; },
     copy => { copy.sources.set.url = 'https://example.com'; },
     copy => { copy.events.find(event => event.id === 'play-in-bo1').entryCloses = '2026-10-26T13:00:00Z'; }

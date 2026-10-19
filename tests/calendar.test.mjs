@@ -45,10 +45,17 @@ test('conflicts and incompatible or invalid dates fail instead of inventing a ca
   }
 });
 
-test('published detailed deadlines do not enable calendar export for a disputed event', () => {
+test('reviewed Arena Direct exports its accepted schedule while Contender remains blocked', () => {
   const event = data.events.find(event => event.id === 'direct-fra');
-  assert.match(calendarUnavailableReason(event), /conflicting dates/);
-  assert.throws(() => createCalendar(event, data.sources.direct.url, now), /conflicting dates/);
+  assert.equal(calendarUnavailableReason(event), '');
+  const calendar = unfold(createCalendar(event, data.sources.direct.url, now));
+  assert.match(calendar, /DTSTART:20261023T150000Z\r\n/);
+  assert.match(calendar, /DTEND:20261102T190000Z\r\n/);
+  assert.match(calendar, /Entry closes: Nov 2\\, 2026\\, 4:00 PM UTC/);
+  assert.match(calendar, /Matches in progress may finish/);
+  const contender = data.events.find(event => event.id === 'contender');
+  assert.match(calendarUnavailableReason(contender), /conflicting dates/);
+  assert.throws(() => createCalendar(contender, data.sources.announcements.url, now), /conflicting dates/);
 });
 
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {

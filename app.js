@@ -65,7 +65,7 @@ function eventRow(event, now) {
   const details = element('details', 'event');
   details.dataset.event = event.id;
   const summary = element('summary');
-  const dateRange = `${formatDate(event.start, state.timezone)}${event.end ? ` - ${formatDate(event.end, state.timezone)}` : ' onward'}`;
+  const dateRange = `${formatDate(event.start, state.timezone)}${event.end ? ` - ${formatDate(event.end, state.timezone)}` : ' onward'}${event.conflict && event.end ? ' (disputed)' : ''}`;
   const name = element('span');
   name.className = 'event-name';
   const heading = element('span', 'event-heading');
