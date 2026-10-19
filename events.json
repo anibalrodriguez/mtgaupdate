@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-10-19T02:30:37Z",
+  "verifiedAt": "2026-10-19T22:57:39Z",
   "sources": {
     "set": {
       "title": "Reality Fracture event schedule, September 21, 2026",
@@ -8,6 +8,14 @@
     "announcements": {
       "title": "MTG Arena announcements, October 12, 2026",
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026"
+    },
+    "announcementsOct19": {
+      "title": "MTG Arena announcements, October 19, 2026",
+      "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026"
+    },
+    "cube": {
+      "title": "Arena Powered Cube Draft - October 2026 update",
+      "url": "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft"
     },
     "qualifiers": {
       "title": "Qualifier Play-Ins and Qualifier Weekend information",
@@ -27,7 +35,7 @@
     }
   },
   "events": [
-    {"id":"premier-fra","name":"Premier Draft","format":"Reality Fracture","match":"BO1","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
+    {"id":"premier-fra","name":"Premier Draft","format":"Reality Fracture","match":"BO1","category":"limited","start":"2026-09-29","end":"2026-12-01","note":"The October 19 announcement extends this event through December 1, superseding the November 9 end date still listed in the older set calendar. Exact times are not announced.","sources":["announcementsOct19","set","formats"],"verifiedAt":"2026-10-19T22:57:39Z"},
     {"id":"premier-alchemy","name":"Premier Draft","format":"Alchemy: Reality Fracture","match":"BO1","category":"limited","start":"2026-10-13","end":"2026-11-03","sources":["announcements","set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"pick-two","name":"Pick-Two Draft","format":"Reality Fracture","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"traditional","name":"Traditional Draft","format":"Reality Fracture","match":"BO3","category":"limited","start":"2026-09-29","end":"2026-11-09","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
@@ -36,7 +44,7 @@
     {"id":"bot-alchemy","name":"Bot Draft","format":"Alchemy: Reality Fracture","category":"limited","start":"2026-10-18","end":"2026-10-19","sources":["announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"quick-aetherdrift","name":"Quick Draft","format":"Aetherdrift","match":"BO1","cost":"5,000 gold / 750 gems","category":"limited","start":"2026-10-19","end":"2026-10-26","sources":["set","draftGuide"],"verifiedAt":"2026-10-19T03:32:49Z"},
     {"id":"flashback-vow","name":"Flashback Premier Draft","format":"Innistrad: Crimson Vow","match":"BO1","category":"limited","start":"2026-10-20","end":"2026-10-26","sources":["set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},
-    {"id":"cube","name":"Arena Powered Cube","format":"Cube Draft","category":"limited","start":"2026-10-20","end":"2026-11-09","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"cube","name":"Arena Powered Cube","format":"Cube Draft","category":"limited","start":"2026-10-20","end":"2026-11-09","note":"Phantom draft: drafted cards are not added to your collection.","sources":["announcementsOct19","cube","set"],"verifiedAt":"2026-10-19T22:57:39Z"},
     {"id":"mwm-gift","name":"Midweek Magic","format":"Gift Bag Standard","category":"constructed","start":"2026-10-20","end":"2026-10-21","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"brawl-challenge","name":"Metagame Challenge","format":"Competitive Brawl","category":"constructed","start":"2026-10-23","end":"2026-10-25","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"play-in-bo1","name":"Qualifier Play-In","format":"Standard","match":"BO1","category":"constructed","start":"2026-10-24T13:00:00Z","entryCloses":"2026-10-25T13:00:00Z","end":"2026-10-25T16:00:00Z","cost":"20,000 gold / 4,000 gems / 20 Play-In Points","competitive":true,"note":"Matchmaking closes October 25 at 15:00 UTC, one hour before the final event finish. Check the official participation requirements.","sources":["qualifiers","announcements"],"verifiedAt":"2026-10-19T02:30:37Z"},
@@ -51,6 +59,9 @@
     {"id":"mwm-bot","name":"Midweek Magic","format":"Reality Fracture Bot Draft","category":"limited","start":"2026-11-03","end":"2026-11-04","sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"standard-challenge","name":"Metagame Challenge","format":"Standard","category":"constructed","start":"2026-11-06","end":"2026-11-08","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"direct-eoe","name":"Arena Direct","format":"Edge of Eternities","category":"limited","start":"2026-11-06","end":"2026-11-08","competitive":true,"sources":["set"],"verifiedAt":"2026-10-19T02:30:37Z"},
+    {"id":"play-in-bo1-nov","name":"Qualifier Play-In","format":"Magic: The Gathering | Star Trek Sealed","match":"BO1","category":"limited","start":"2026-11-14","end":"2026-11-14","competitive":true,"cost":"20,000 gold / 4,000 gems / 20 Play-In Points","note":"November 14 is the published event date, not a confirmed finish date. Exact start, entry cutoff, and finish times are withheld because the generic timeline lists daylight-saving UTC offsets that do not match November Pacific time.","sources":["announcementsOct19","qualifiers"],"verifiedAt":"2026-10-19T22:57:39Z"},
+    {"id":"play-in-bo3-nov","name":"Qualifier Play-In","format":"Magic: The Gathering | Star Trek Sealed","match":"BO3","category":"limited","start":"2026-11-20","end":"2026-11-20","competitive":true,"cost":"20,000 gold / 4,000 gems / 20 Play-In Points","note":"November 20 is the published event date, not a confirmed finish date. The official table and detailed timeline disagree on Saturday entry and finish times, and their daylight-saving UTC offsets do not match November Pacific time. Exact deadlines are deliberately withheld.","sources":["announcementsOct19","qualifiers"],"verifiedAt":"2026-10-19T22:57:39Z"},
+    {"id":"weekend-nov","name":"Qualifier Weekend","format":"Magic: The Gathering | Star Trek Sealed","match":"BO3","category":"limited","start":"2026-11-21","end":"2026-11-22","competitive":true,"cost":"Qualification required","note":"Separate entry windows apply each day. A Day One token is required; advancing to Day Two requires qualifying on Day One. Exact times are withheld because the generic timeline lists daylight-saving UTC offsets that do not match November Pacific time.","sources":["announcementsOct19","qualifiers"],"verifiedAt":"2026-10-19T22:57:39Z"},
     {"id":"contender","name":"Contender Draft","format":"Reality Fracture","category":"limited","start":"2026-10-13","end":null,"conflict":true,"reviewThrough":"2026-11-11","competitive":true,"cost":"3,000 gems / 20,000 gold","note":"The set calendar and October 12 headline end this event November 9, but the same announcement's detailed schedule ends it November 11 at 19:00 UTC. The end date and entry cutoff need confirmation.","sources":["announcements","set"],"verifiedAt":"2026-10-19T02:30:37Z"},
     {"id":"direct-fra","name":"Arena Direct","format":"Reality Fracture Sealed","match":"BO1","category":"limited","start":"2026-10-23T15:00:00Z","end":null,"conflict":true,"reviewThrough":"2026-11-02","competitive":true,"cost":"6,000 gems","note":"The article headline and set calendar end this event November 1. The detailed schedule instead closes entries November 2 at 16:00 UTC and ends play at 19:00 UTC, or earlier at the entry limit. Confirm in Arena. Participation and regional restrictions apply.","sources":["direct","set"],"verifiedAt":"2026-10-19T02:30:37Z"}
   ]

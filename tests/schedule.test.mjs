@@ -51,9 +51,20 @@ test('competitive filter combines with format and search without promoting confl
   assert.equal(groups.upcoming.some(event => event.id === 'quick-aetherdrift'), false);
   assert.deepEqual(groups.conflicts.map(event => event.id), ['contender', 'direct-fra']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['play-in-bonus']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov']);
   assert.deepEqual(limited.conflicts.map(event => event.id), ['direct-fra']);
-  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 25);
+  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 28);
+});
+
+test('extended Premier Draft remains scheduled after the older end date and November qualifiers are discoverable', () => {
+  const premier = data.events.find(event => event.id === 'premier-fra');
+  assert.equal(eventStatus(premier, new Date('2026-11-10T20:00:00Z')), 'scheduled');
+  assert.equal(eventStatus(premier, new Date('2026-12-01T20:00:00Z')), 'boundary');
+  assert.equal(eventStatus(premier, new Date('2026-12-02T20:00:00Z')), 'expired');
+  const groups = groupEvents(data.events, { category: 'limited', search: 'star trek', competitive: true }, new Date('2026-11-14T20:00:00Z'));
+  assert.deepEqual(groups.current.map(event => event.id), ['play-in-bo1-nov']);
+  assert.deepEqual(groups.upcoming.map(event => event.id), ['play-in-bo3-nov', 'weekend-nov']);
+  assert.equal(groups.conflicts.length, 0);
 });
 
 test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail explicitly', () => {

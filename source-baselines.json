@@ -3,28 +3,28 @@
   "sources": {
     "set": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/reality-fracture-event-schedule",
-      "fingerprint": "5e7f2198d3ff47a9a9e13fb8c7707eba128ab6a2dc0793d0c721f85cc9f6638e",
-      "acceptedAt": "2026-10-19T04:05:58.265Z"
+      "fingerprint": "96d62de541abbee04b591b8d0e16b524a51bed4394da826806d6c5e2a4538a98",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     },
     "announcements": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
-      "fingerprint": "dca79bc0ead83035756fb8257c88700c7e65335ef396f85efde6cfe79a81672a",
-      "acceptedAt": "2026-10-19T04:05:58.265Z"
+      "fingerprint": "0cf05e11e270af56b6a7491440d2db2a7327045c02f21d7401ddbf644657fa6b",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     },
     "qualifiers": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/qualifier-play-ins-and-qualifier-weekend-information",
-      "fingerprint": "03b13a009fc1350d8e15755993935f3bdcb505e2983f5c609eb77e6e9f0c4f9b",
-      "acceptedAt": "2026-10-19T04:05:58.265Z"
+      "fingerprint": "87dedcaf73235aebe8be1d0565812835950b7c4e482212070a3621f6cddf4d16",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     },
     "direct": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-      "fingerprint": "58c1b2c7eda3cfbf2775ce282b6e75a479fb4824882c21fb62584a887b4f0a98",
-      "acceptedAt": "2026-10-19T04:05:58.265Z"
+      "fingerprint": "7ac879a51b9c39602b5c2017eace83b7c1a880c923b92f12ae0c3a1b63e361ad",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     },
     "formats": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/state-of-the-formats-2026",
-      "fingerprint": "9764444d85c1c791542b40c2315f70394396a5944cdbfe61f74358d54aef6bd4",
-      "acceptedAt": "2026-10-19T04:05:58.265Z"
+      "fingerprint": "b9d03f913ec9b83da95b5deb53316e0f40621a8569400de169e60746d5dcd634",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     },
     "draftGuide": {
       "url": "https://magic.wizards.com/en/mtgarena/draft",
@@ -33,15 +33,25 @@
     },
     "news": {
       "url": "https://magic.wizards.com/en/news/mtg-arena",
-      "fingerprint": "e46e852668babca081701a9a8aa2109a0df5912eb7bfba4269a5b5f1baee2ea5",
-      "acceptedAt": "2026-10-19T04:07:03.502Z",
+      "fingerprint": "64b0c1a25022904307d1584d67c697fca007b977d70b6481777f01012d7e31b1",
+      "acceptedAt": "2026-10-19T22:58:56.728Z",
       "links": [
-        "https://magic.wizards.com/en/news/mtg-arena/alchemy-reality-fracture-spellbook",
-        "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
+        "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
         "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
         "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
-        "https://magic.wizards.com/en/news/mtg-arena/arena-limited-championship-terms-and-conditions"
+        "https://magic.wizards.com/en/news/mtg-arena/arena-limited-championship-terms-and-conditions",
+        "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft"
       ]
+    },
+    "announcementsOct19": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
+      "fingerprint": "7c737c1227bba1fb727ffc81fc2972921ca00d6ab567bd82a8ea4251ce4ec1eb",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
+    },
+    "cube": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft",
+      "fingerprint": "358dde49297182cd59132b973207374fdd6296289f21d7453345600386a2c459",
+      "acceptedAt": "2026-10-19T22:58:56.728Z"
     }
   }
 }
