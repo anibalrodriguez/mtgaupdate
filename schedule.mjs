@@ -137,6 +137,36 @@ export function createCalendar(event, sourceUrl, now = new Date()) {
   return `${lines.map(fold).join('\r\n')}\r\n`;
 }
 
+function validateSeasonRewards(rewards, sources) {
+  if (!rewards || !/^\d{4}-(?:0[1-9]|1[0-2])$/.test(rewards.season)
+    || !validDate(rewards.distributedAt) || !timestampPattern.test(rewards.distributedAt)
+    || !validDate(rewards.verifiedAt) || !timestampPattern.test(rewards.verifiedAt)
+    || typeof rewards.packSet !== 'string' || !rewards.packSet.trim()
+    || typeof rewards.eligibility !== 'string' || !rewards.eligibility.trim()
+    || !Array.isArray(rewards.sources) || !rewards.sources.length || rewards.sources.some(id => !Object.hasOwn(sources, id))
+    || !Array.isArray(rewards.styles) || !Array.isArray(rewards.ranks)) {
+    throw new Error('Invalid season rewards metadata');
+  }
+  const styles = new Set();
+  for (const style of rewards.styles) {
+    if (!style || typeof style.id !== 'string' || !style.id || styles.has(style.id) || typeof style.name !== 'string' || !style.name.trim()) {
+      throw new Error('Invalid reward card style');
+    }
+    const image = new URL(style.imageUrl);
+    if (image.origin !== 'https://media.wizards.com' || image.username || image.password) throw new Error('Invalid reward preview URL');
+    styles.add(style.id);
+  }
+  const ranks = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Mythic'];
+  if (rewards.ranks.length !== ranks.length) throw new Error('Incomplete season reward ranks');
+  rewards.ranks.forEach((reward, index) => {
+    if (!reward || reward.rank !== ranks[index] || !Number.isSafeInteger(reward.packs) || reward.packs < 0
+      || !Number.isSafeInteger(reward.gold) || reward.gold < 0 || !Array.isArray(reward.styles)
+      || new Set(reward.styles).size !== reward.styles.length || reward.styles.some(id => !styles.has(id))) {
+      throw new Error(`Invalid season reward rank: ${ranks[index]}`);
+    }
+  });
+}
+
 export function validateSchedule(data) {
   if (!data || !validDate(data.verifiedAt) || !timestampPattern.test(data.verifiedAt) || !data.sources || !Array.isArray(data.events)) {
     throw new Error('Invalid schedule metadata');
@@ -147,6 +177,7 @@ export function validateSchedule(data) {
       throw new Error('Invalid official source');
     }
   }
+  if (Object.hasOwn(data, 'seasonRewards')) validateSeasonRewards(data.seasonRewards, data.sources);
   const ids = new Set();
   for (const event of data.events) {
     if (!event.id || ids.has(event.id) || typeof event.name !== 'string' || typeof event.format !== 'string'

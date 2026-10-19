@@ -533,3 +533,53 @@ html[data-design="schedule"] {
   [data-design="schedule"] .heading-line label { justify-content: space-between; width: 100%; }
   [data-design="schedule"] .event-body dl { grid-template-columns: 1fr; }
 }
+
+.season-rewards {
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--cp-text);
+}
+.season-rewards > details { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); overflow: hidden; }
+.season-rewards summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; list-style: none; }
+.season-rewards summary::-webkit-details-marker { display: none; }
+.season-rewards summary:hover { background: var(--cp-bg-elevated); }
+.season-rewards :focus-visible { outline-color: var(--cp-accent); }
+.rewards-summary { display: grid; gap: 4px; }
+.rewards-eyebrow { color: var(--cp-accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; }
+.rewards-summary strong { font-size: 18px; font-weight: 600; line-height: 1.4; }
+#season-rewards-time { color: var(--cp-text-muted); font-size: 13px; }
+.rewards-toggle { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-accent); font-size: 24px; }
+.season-rewards details[open] .rewards-toggle { transform: rotate(45deg); }
+.rewards-body { padding: 0 24px 20px; border-top: 1px solid var(--cp-border); }
+.rewards-eligibility { margin: 20px 0; padding: 12px 16px; background: var(--cp-surface-soft); border-left: 2px solid var(--cp-accent); border-radius: 0 .625rem .625rem 0; font-size: 14px; }
+.rewards-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .65fr); gap: 32px; align-items: start; }
+.rewards-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+.rewards-table caption { text-align: left; font-size: 14px; font-weight: 600; padding-bottom: 12px; }
+.rewards-table thead { background: var(--cp-surface-soft); color: var(--cp-text-muted); font-size: 12px; }
+.rewards-table th, .rewards-table td { border-bottom: 1px solid var(--cp-border); padding: 12px; vertical-align: top; }
+.rewards-table tbody th { width: 104px; font-weight: 600; }
+.reward-amount { display: block; font-variant-numeric: tabular-nums; }
+.reward-styles { display: block; margin-top: 4px; color: var(--cp-text-muted); font-size: 12px; overflow-wrap: anywhere; }
+.rewards-previews { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.reward-preview { margin: 0; min-width: 0; }
+.reward-preview > a { display: block; color: var(--cp-link); border-radius: .625rem; }
+.reward-preview img { display: block; width: 100%; max-width: 250px; height: auto; aspect-ratio: 5 / 7; object-fit: contain; border-radius: .625rem; background: var(--cp-surface-soft); }
+.reward-preview figcaption { display: grid; gap: 4px; margin-top: 12px; font-size: 12px; line-height: 1.5; }
+.reward-preview figcaption strong { font-weight: 600; }
+.reward-preview figcaption span { color: var(--cp-text-muted); }
+.reward-image-error { display: grid; align-content: center; min-height: 200px; padding: 16px; border: 1px solid var(--cp-border); border-radius: .625rem; font-size: 13px; }
+.rewards-note { color: var(--cp-text-muted); font-size: 12px; line-height: 1.7; margin: 12px 0 0; }
+.rewards-sources { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 20px; font-size: 13px; }
+.rewards-sources a { color: var(--cp-link); }
+@media (max-width: 800px) {
+  .season-rewards summary { padding: 16px; }
+  .rewards-body { padding: 0 16px 16px; }
+  .rewards-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .rewards-previews { max-width: 420px; }
+  .rewards-eligibility { margin-top: 16px; }
+}
+@media (max-width: 400px) {
+  .rewards-summary strong { font-size: 16px; }
+  .rewards-table th, .rewards-table td { padding: 12px 8px; }
+  .rewards-table tbody th { width: 80px; font-size: 13px; }
+  .rewards-previews { gap: 12px; }
+}

@@ -38,6 +38,26 @@
       "url": "https://magic.wizards.com/en/mtgarena/draft"
     }
   },
+  "seasonRewards": {
+    "season": "2026-10",
+    "distributedAt": "2026-10-31T19:05:00Z",
+    "packSet": "Reality Fracture",
+    "eligibility": "Play at least one ranked game in the respective format to receive seasonal rewards.",
+    "styles": [
+      {"id":"break-under-pressure","name":"Break Under Pressure","imageUrl":"https://media.wizards.com/2026/images/daily/ZclTjx9JPL.webp"},
+      {"id":"simulacrum-shaper","name":"Simulacrum Shaper","imageUrl":"https://media.wizards.com/2026/images/daily/Ww7gF9GL34.webp"}
+    ],
+    "ranks": [
+      {"rank":"Bronze","packs":1,"gold":0,"styles":[]},
+      {"rank":"Silver","packs":1,"gold":500,"styles":[]},
+      {"rank":"Gold","packs":2,"gold":1000,"styles":["break-under-pressure"]},
+      {"rank":"Platinum","packs":3,"gold":1000,"styles":["break-under-pressure","simulacrum-shaper"]},
+      {"rank":"Diamond","packs":4,"gold":1000,"styles":["break-under-pressure","simulacrum-shaper"]},
+      {"rank":"Mythic","packs":5,"gold":1000,"styles":["break-under-pressure","simulacrum-shaper"]}
+    ],
+    "sources": ["announcementsOct19"],
+    "verifiedAt": "2026-10-19T23:38:57Z"
+  },
   "events": [
     {"id":"premier-fra","name":"Premier Draft","format":"Reality Fracture","match":"BO1","category":"limited","start":"2026-09-29","end":"2026-12-01","note":"The October 19 announcement extends this event through December 1, superseding the November 9 end date still listed in the older set calendar. Exact times are not announced.","sources":["announcementsOct19","set","formats"],"verifiedAt":"2026-10-19T22:57:39Z"},
     {"id":"premier-alchemy","name":"Premier Draft","format":"Alchemy: Reality Fracture","match":"BO1","category":"limited","start":"2026-10-13","end":"2026-11-03","sources":["announcements","set","formats"],"verifiedAt":"2026-10-19T03:32:49Z"},

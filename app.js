@@ -49,6 +49,63 @@ function fact(list, label, value) {
   list.append(row);
 }
 
+function renderSeasonRewards(rewards) {
+  const section = $('#season-rewards');
+  section.hidden = !rewards;
+  if (!rewards) return;
+  const season = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${rewards.season}-01T00:00:00Z`));
+  $('#season-rewards-heading').textContent = `${season} season rewards`;
+  $('#season-rewards-eligibility').textContent = rewards.eligibility;
+  $('#season-rewards-packs').textContent = `All packs are ${rewards.packSet}. Card styles are cosmetic rewards, not additional card copies.`;
+  const rows = rewards.ranks.map(reward => {
+    const row = element('tr');
+    const rank = element('th', '', reward.rank);
+    rank.scope = 'row';
+    const value = element('td');
+    value.append(element('span', 'reward-amount', `${reward.packs} ${reward.packs === 1 ? 'pack' : 'packs'}${reward.gold ? ` + ${reward.gold.toLocaleString('en-US')} gold` : ''}`));
+    if (reward.styles.length) {
+      value.append(element('span', 'reward-styles', reward.styles.map(id => rewards.styles.find(style => style.id === id).name).join(' + ')));
+    }
+    row.append(rank, value);
+    return row;
+  });
+  $('#season-rewards-ranks').replaceChildren(...rows);
+  const previews = rewards.styles.map(style => {
+    const figure = element('figure', 'reward-preview');
+    const link = element('a');
+    link.href = style.imageUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', `Open ${style.name} card-style preview`);
+    const image = element('img');
+    image.src = style.imageUrl;
+    image.alt = `${style.name} depth-art card style`;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.width = 250;
+    image.height = 350;
+    image.addEventListener('error', () => {
+      console.error(`Unable to load season reward preview: ${style.imageUrl}`);
+      link.replaceChildren(element('span', 'reward-image-error', 'Preview unavailable. Open the official image.'));
+    }, { once: true });
+    link.append(image);
+    const caption = element('figcaption');
+    const firstRank = rewards.ranks.find(reward => reward.styles.includes(style.id));
+    caption.append(element('strong', '', style.name), element('span', '', firstRank ? `${firstRank.rank} rank and above` : 'Card-style preview'));
+    figure.append(link, caption);
+    return figure;
+  });
+  $('#season-rewards-previews').replaceChildren(...previews);
+  const sources = rewards.sources.map((id, index) => {
+    const link = element('a', '', index ? 'Additional official source' : 'Official rewards announcement');
+    link.href = data.sources[id].url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    return link;
+  });
+  $('#season-rewards-sources').replaceChildren(...sources);
+}
+
 function statusLabel(event, now) {
   const status = eventStatus(event, now);
   if (event.conflict) return { text: design === 'schedule' ? 'Needs confirmation' : 'Dates disagree', style: 'warning' };
@@ -254,6 +311,12 @@ function render() {
     if (state.status === 'conflicts') $('#conflicts-section').hidden = false;
   }
   $('#today').textContent = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: state.timezone }).format(now);
+  if (data.seasonRewards) {
+    $('#season-rewards-time').textContent = `Distribution scheduled for ${formatDate(data.seasonRewards.distributedAt, state.timezone, true)}`;
+    const reviewedAt = data.seasonRewards.verifiedAt;
+    const staleRewards = now.getTime() - new Date(reviewedAt).getTime() > 7 * 86400000;
+    $('#season-rewards-verified').textContent = `Source reviewed ${formatDate(reviewedAt, state.timezone, true)}.${staleRewards ? ' Rewards have not been reviewed in more than 7 days; check the official announcement.' : ''}`;
+  }
   $('#verified').textContent = `Sources last reviewed: ${formatDate(data.verifiedAt, state.timezone, true)}. Updates are manual.`;
   const stale = now.getTime() - new Date(data.verifiedAt).getTime() > 7 * 86400000;
   $('#freshness').textContent = stale ? 'This schedule has not been reviewed in more than 7 days. Check official sources before making plans.' : '';
@@ -300,6 +363,7 @@ async function loadSchedule() {
     const response = await fetch('./events.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error(`Schedule request failed (${response.status})`);
     data = validateSchedule(await response.json());
+    renderSeasonRewards(data.seasonRewards);
     render();
     $('#schedule').hidden = false;
     $('#load-status').hidden = true;

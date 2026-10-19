@@ -10,6 +10,37 @@ test('curated data is valid and every event cites an official source', () => {
   assert.equal(validateSchedule(data), data);
 });
 
+test('optional season rewards keep schedules backward compatible and convert the distribution instant', () => {
+  const withoutRewards = structuredClone(data);
+  delete withoutRewards.seasonRewards;
+  assert.equal(validateSchedule(withoutRewards), withoutRewards);
+  const rewards = data.seasonRewards;
+  assert.match(formatDate(rewards.distributedAt, 'America/Los_Angeles', true), /Oct 31, 2026, 12:05 PM PDT/);
+  assert.match(formatDate(rewards.distributedAt, 'UTC', true), /Oct 31, 2026, 7:05 PM UTC/);
+  const now = new Date('2026-10-19T12:00:00Z');
+  assert.deepEqual(groupEvents(data.events, filters, now), groupEvents(withoutRewards.events, filters, now));
+});
+
+test('season rewards reject invalid distribution times, incomplete ranks, missing sources, and unsafe previews', () => {
+  for (const mutate of [
+    rewards => { rewards.distributedAt = '2026-10-31'; },
+    rewards => { rewards.distributedAt = '2026-02-30T19:05:00Z'; },
+    rewards => { rewards.season = '2026-13'; },
+    rewards => { rewards.ranks.pop(); },
+    rewards => { rewards.ranks[1].rank = 'Bronze'; },
+    rewards => { rewards.ranks[0].gold = -1; },
+    rewards => { rewards.ranks[0].packs = 1.5; },
+    rewards => { rewards.ranks[0].styles = ['missing-style']; },
+    rewards => { rewards.styles[1].id = rewards.styles[0].id; },
+    rewards => { rewards.styles[0].imageUrl = 'https://example.com/card.webp'; },
+    rewards => { rewards.sources = ['missing-source']; }
+  ]) {
+    const copy = structuredClone(data);
+    mutate(copy.seasonRewards);
+    assert.throws(() => validateSchedule(copy));
+  }
+});
+
 test('date-only boundaries remain uncertain and use Pacific dates, not UTC midnight', () => {
   const event = data.events.find(event => event.id === 'quick-fra-oct');
   assert.equal(eventStatus(event, new Date('2026-10-19T02:00:00Z')), 'boundary');
