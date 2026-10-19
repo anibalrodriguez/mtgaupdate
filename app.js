@@ -127,7 +127,7 @@ function eventRow(event, now) {
   const calendarNote = element('p', 'calendar-note', unavailable || `${event.start.length === 10 ? 'Added as an all-day event. ' : ''}Downloads an .ics file. Future changes will not sync.`);
   calendarNote.id = `calendar-note-${event.id}`;
   calendarButton.setAttribute('aria-describedby', calendarNote.id);
-  if (!unavailable) calendarButton.addEventListener('click', () => {
+  const downloadCalendar = () => {
     try {
       const content = createCalendar(event, data.sources[event.sources[0]].url);
       const url = URL.createObjectURL(new Blob([content], { type: 'text/calendar;charset=utf-8' }));
@@ -142,8 +142,32 @@ function eventRow(event, now) {
       console.error('Unable to export the Arena event:', error);
       calendarNote.textContent = 'The calendar file could not be created. Please reload the page and try again.';
       calendarNote.setAttribute('role', 'alert');
+      details.open = true;
     }
-  });
+  };
+  if (!unavailable) calendarButton.addEventListener('click', downloadCalendar);
+  if (design === 'schedule') {
+    const quickCalendar = element('button', 'calendar-quick');
+    quickCalendar.type = 'button';
+    quickCalendar.setAttribute('aria-label', calendarButton.getAttribute('aria-label'));
+    quickCalendar.setAttribute('aria-describedby', calendarNote.id);
+    quickCalendar.setAttribute('aria-disabled', String(Boolean(unavailable)));
+    quickCalendar.title = unavailable || `Add to calendar. ${calendarNote.textContent}`;
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    for (const [attribute, value] of Object.entries({ viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.6', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true' })) {
+      icon.setAttribute(attribute, value);
+    }
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m7 9v6m-3-3h6');
+    icon.append(path);
+    quickCalendar.append(icon);
+    quickCalendar.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!unavailable) downloadCalendar();
+    });
+    summary.insertBefore(quickCalendar, expand);
+  }
   calendar.append(calendarButton, calendarNote);
   body.append(calendar);
   const links = element('div', 'source-links');
@@ -205,7 +229,7 @@ function render() {
     if (['ledger', 'schedule'].includes(design) && groups[group].length) {
       const headings = element('div', design === 'schedule' ? 'schedule-columns' : 'ledger-headings');
       headings.setAttribute('aria-hidden', 'true');
-      (design === 'schedule' ? ['EVENT / FORMAT', 'CATEGORY', 'DATES / ENTRY CUTOFF', ''] : ['EVENT / FORMAT', 'STARTS', 'ENDS', 'DATA STATUS', '']).forEach(text => headings.append(element('span', '', text)));
+      (design === 'schedule' ? ['EVENT / FORMAT', 'CATEGORY', 'DATES / ENTRY CUTOFF', '', ''] : ['EVENT / FORMAT', 'STARTS', 'ENDS', 'DATA STATUS', '']).forEach(text => headings.append(element('span', '', text)));
       nodes.unshift(headings);
     }
     $(selector).replaceChildren(...nodes);

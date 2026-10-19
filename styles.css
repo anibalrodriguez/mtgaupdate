@@ -428,7 +428,7 @@ html[data-design="schedule"] {
 [data-design="schedule"] .event-list { border: 1px solid var(--line); border-radius: 4px; background: var(--surface); overflow: hidden; }
 [data-design="schedule"] .event:last-child { border-bottom: 0; }
 [data-design="schedule"] .schedule-columns,
-[data-design="schedule"] .event > summary { display: grid; grid-template-columns: minmax(210px, 1fr) 130px minmax(250px, .85fr) 18px; gap: 18px; align-items: center; padding: 14px 17px; }
+[data-design="schedule"] .event > summary { display: grid; grid-template-columns: minmax(210px, 1fr) 115px minmax(250px, .85fr) 44px 18px; gap: 18px; align-items: center; padding: 14px 17px; }
 [data-design="schedule"] .schedule-columns { padding-top: 10px; padding-bottom: 10px; background: var(--surface-alt); color: var(--muted); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 9px; letter-spacing: .7px; }
 [data-design="schedule"] .event > summary:hover { background: var(--surface-hover); }
 [data-design="schedule"] .event[open] > summary { background: var(--surface-alt); }
@@ -440,6 +440,11 @@ html[data-design="schedule"] {
 .schedule-dates { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; display: flex; flex-direction: column; gap: 4px; line-height: 1.6; }
 .exact-start, .entry-cutoff { font-size: 10px; color: var(--muted); }
 .date-warning { font-size: 10px; color: var(--warning-ink); }
+.calendar-quick { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; }
+.calendar-quick svg { width: 19px; height: 19px; }
+.calendar-quick:hover:not([aria-disabled="true"]) { background: var(--selected); color: var(--selected-ink); border-color: var(--selected-line); }
+.calendar-quick:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.calendar-quick[aria-disabled="true"] { color: var(--muted); cursor: not-allowed; }
 [data-design="schedule"] .expand { font-size: 20px; }
 [data-design="schedule"] .event[open] > summary .expand { transform: rotate(180deg); }
 [data-design="schedule"] .event-body { margin: 0; padding: 17px; border-top: 1px solid var(--line); background: var(--paper); }
@@ -473,7 +478,7 @@ html[data-design="schedule"] {
 @media (max-width: 1000px) {
   [data-design="schedule"] .page { width: calc(100% - 40px); }
   [data-design="schedule"] .schedule-columns,
-  [data-design="schedule"] .event > summary { grid-template-columns: minmax(175px, 1fr) 105px minmax(225px, .85fr) 16px; gap: 12px; padding-left: 13px; padding-right: 13px; }
+  [data-design="schedule"] .event > summary { grid-template-columns: minmax(175px, 1fr) 95px minmax(225px, .85fr) 44px 16px; gap: 12px; padding-left: 13px; padding-right: 13px; }
   [data-design="schedule"] .event-title { font-size: 13px; }
 }
 @media (max-width: 800px) {
@@ -492,14 +497,15 @@ html[data-design="schedule"] {
   [data-design="schedule"] .date-note { font-size: 10px; line-height: 1.8; }
   [data-design="schedule"] .section-heading > span { display: none; }
   [data-design="schedule"] .schedule-columns { display: none; }
-  [data-design="schedule"] .event > summary { grid-template-columns: minmax(0, 1fr) 15px; gap: 9px; padding: 15px 13px; }
-  [data-design="schedule"] .event-name { grid-column: 1; grid-row: 1; }
+  [data-design="schedule"] .event > summary { grid-template-columns: minmax(0, 1fr) 44px 15px; gap: 9px; padding: 15px 13px; }
+  [data-design="schedule"] .event-name { grid-column: 1 / span 2; grid-row: 1; }
   [data-design="schedule"] .event-title { font-size: 13px; }
   [data-design="schedule"] .event-format { font-size: 10px; }
   [data-design="schedule"] .event-category { grid-column: 1; grid-row: 2; font-size: 11px; }
   [data-design="schedule"] .match-type { font-size: 10px; }
   [data-design="schedule"] .schedule-dates { grid-column: 1; grid-row: 3; font-size: 11px; margin-top: 2px; }
-  [data-design="schedule"] .expand { grid-column: 2; grid-row: 1; }
+  [data-design="schedule"] .calendar-quick { grid-column: 2 / span 2; grid-row: 2 / span 2; justify-self: end; align-self: end; }
+  [data-design="schedule"] .expand { grid-column: 3; grid-row: 1; }
   [data-design="schedule"] .event-body { padding: 13px; }
   [data-design="schedule"] .event-body dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   [data-design="schedule"] .event-body dd { font-size: 11px; }
