@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f8f9f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161d18" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="A simple, Arena-only event schedule with official sources and clearly marked unconfirmed times.">
+  <title>MTGA Update - Arena event schedule</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="heading-line">
+        <a class="brand" href="./">mtga<span>update</span><span class="brand-dot">.</span></a>
+        <span class="version">DESIGN COMPARISON / LOCAL REVIEW</span>
+      </div>
+      <nav class="design-switcher" aria-label="Choose a design">
+        <a href="./" data-design-link="schedule">Schedule</a>
+        <a href="?design=list" data-design-link="list"><span>01</span> Simple list</a>
+        <a href="?design=agenda" data-design-link="agenda"><span>02</span> Day planner</a>
+        <a href="?design=ledger" data-design-link="ledger"><span>03</span> Event ledger</a>
+      </nav>
+      <h1>MTG Arena event schedule</h1>
+      <p class="design-description" id="design-description" hidden></p>
+    </header>
+
+    <div class="schedule-meta">
+      <p id="today"></p>
+      <label for="timezone">Exact times in
+        <select id="timezone">
+          <option value="local">Your timezone</option>
+          <option value="America/Los_Angeles">Pacific time</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </label>
+    </div>
+    <div class="toolbar">
+      <div class="tabs" role="group" aria-label="Filter events">
+        <button data-category="all" aria-pressed="true">All events</button>
+        <button data-category="limited" aria-pressed="false">Limited</button>
+        <button data-category="constructed" aria-pressed="false">Constructed</button>
+      </div>
+      <label class="search"><span class="visually-hidden">Search events</span><input id="search" type="search" placeholder="Search events"></label>
+    </div>
+    <div class="filter-options">
+      <label class="competitive-filter"><input id="competitive" type="checkbox"> Competitive only</label>
+    </div>
+
+    <div class="view-controls" id="agenda-controls" hidden>
+      <label for="upcoming-window">Upcoming window
+        <select id="upcoming-window"><option value="all">All published dates</option><option value="7">Next 7 calendar days</option><option value="30">Next 30 calendar days</option></select>
+      </label>
+    </div>
+    <div class="view-controls ledger-controls" id="ledger-controls" hidden>
+      <div class="status-tabs" role="group" aria-label="Filter schedule status">
+        <button data-status="all" aria-pressed="true">Everything <span data-status-count="all">0</span></button>
+        <button data-status="current" aria-pressed="false">Current <span data-status-count="current">0</span></button>
+        <button data-status="upcoming" aria-pressed="false">Upcoming <span data-status-count="upcoming">0</span></button>
+        <button data-status="conflicts" aria-pressed="false">Needs confirmation <span data-status-count="conflicts">0</span></button>
+      </div>
+      <label for="event-sort">Sort by
+        <select id="event-sort"><option value="start">Start date</option><option value="end">End date</option><option value="name">Event name</option></select>
+      </label>
+    </div>
+    <p class="date-note">Date-only listings keep the published dates (Pacific calendar); they do not confirm an event is open right now. Expand an event for details.</p>
+    <p id="load-status" role="status">Loading the schedule...</p>
+    <div id="schedule" hidden>
+      <section aria-labelledby="current-heading" data-schedule-group="current">
+        <div class="section-heading"><h2 id="current-heading"><span class="dot"></span><span id="current-label">Current schedule</span> <span id="current-count" class="count"></span></h2><span id="current-caption">Published dates include today</span></div>
+        <div id="current-events" class="event-list"></div>
+      </section>
+      <section aria-labelledby="upcoming-heading" data-schedule-group="upcoming">
+        <div class="section-heading"><h2 id="upcoming-heading"><span id="upcoming-label">Upcoming</span> <span id="upcoming-count" class="count"></span></h2><span id="upcoming-caption">All published future events</span></div>
+        <div id="upcoming-events" class="event-list"></div>
+      </section>
+      <section id="conflicts-section" aria-labelledby="conflicts-heading" data-schedule-group="conflicts" hidden>
+        <div class="section-heading"><h2 id="conflicts-heading" tabindex="-1">Needs confirmation <span id="conflicts-count" class="count"></span></h2><span>Official dates disagree</span></div>
+        <div id="conflict-events" class="event-list"></div>
+      </section>
+    </div>
+    <p class="visually-hidden" id="results" role="status" aria-live="polite"></p>
+
+    <footer>
+      <div class="verification"><p id="verified">Verification date unavailable until the schedule loads.</p><p id="freshness"></p></div>
+      <details class="about">
+        <summary>About this schedule</summary>
+        <p>Manually curated from official Wizards announcements. Time-limited Arena events only, not permanent queues. This first version covers the published Reality Fracture schedule through November 10, 2026; it is not an exhaustive or automatically updated feed.</p>
+        <p>Missing times, prices, and match structures are left unconfirmed. Conflicting dates are separated from the main schedule. Always check the official event page and the Arena client before entering.</p>
+      </details>
+      <p class="legal">Independent fan project. Not affiliated with Wizards of the Coast. Magic: The Gathering and MTG Arena are trademarks of Wizards of the Coast.</p>
+    </footer>
+    <noscript><p class="error">JavaScript is required to display and filter this schedule. Enable it and reload the page.</p></noscript>
+  </main>
+</body>
+</html>
