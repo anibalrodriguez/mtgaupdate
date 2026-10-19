@@ -548,7 +548,7 @@ html[data-design="schedule"] {
 .rewards-summary strong { font-size: 18px; font-weight: 600; line-height: 1.4; }
 #season-rewards-time { color: var(--cp-text-muted); font-size: 13px; }
 .rewards-toggle { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-accent); font-size: 24px; }
-.season-rewards details[open] .rewards-toggle { transform: rotate(45deg); }
+.season-rewards details[open] .rewards-toggle svg { transform: rotate(180deg); }
 .rewards-body { padding: 0 24px 20px; border-top: 1px solid var(--cp-border); }
 .rewards-eligibility { margin: 20px 0; padding: 12px 16px; background: var(--cp-surface-soft); border-left: 2px solid var(--cp-accent); border-radius: 0 .625rem .625rem 0; font-size: 14px; }
 .rewards-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .65fr); gap: 32px; align-items: start; }
