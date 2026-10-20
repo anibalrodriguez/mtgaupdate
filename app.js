@@ -312,7 +312,10 @@ function render() {
   }
   $('#today').textContent = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: state.timezone }).format(now);
   if (data.seasonRewards) {
-    $('#season-rewards-time').textContent = `Distribution scheduled for ${formatDate(data.seasonRewards.distributedAt, state.timezone, true)}`;
+    const previousSeason = now >= new Date(data.seasonRewards.distributedAt);
+    $('#season-rewards-label').textContent = previousSeason ? 'Ranked play / Previous season' : 'Ranked play';
+    $('#season-rewards-status').hidden = !previousSeason;
+    $('#season-rewards-time').textContent = `${previousSeason ? 'Distribution was scheduled for' : 'Distribution scheduled for'} ${formatDate(data.seasonRewards.distributedAt, state.timezone, true)}`;
     const reviewedAt = data.seasonRewards.verifiedAt;
     const staleRewards = now.getTime() - new Date(reviewedAt).getTime() > 7 * 86400000;
     $('#season-rewards-verified').textContent = `Source reviewed ${formatDate(reviewedAt, state.timezone, true)}.${staleRewards ? ' Rewards have not been reviewed in more than 7 days; check the official announcement.' : ''}`;
