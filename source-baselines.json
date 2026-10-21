@@ -3,8 +3,8 @@
   "sources": {
     "set": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/reality-fracture-event-schedule",
-      "fingerprint": "96d62de541abbee04b591b8d0e16b524a51bed4394da826806d6c5e2a4538a98",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "0f4c15a0be454e2e180d4d2a8c2ebbf161bdbaa0af37feb3a4e46cf2b6858660",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Quick Draft: September 29–October 7: Wilds of Eldraine",
         "Quick Draft: October 19–26: Aetherdrift",
@@ -23,8 +23,8 @@
     },
     "announcements": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
-      "fingerprint": "0cf05e11e270af56b6a7491440d2db2a7327045c02f21d7401ddbf644657fa6b",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "249f65ccb2b864dcb213a50bc1a2febb36006afd5d9aa6dabe016bb91e993947",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 12, 2026",
         "MTG Arena Announcements – October 12, 2026: Reality Fracture Contender Draft, October 13–November 9",
@@ -43,8 +43,8 @@
     },
     "qualifiers": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/qualifier-play-ins-and-qualifier-weekend-information",
-      "fingerprint": "87dedcaf73235aebe8be1d0565812835950b7c4e482212070a3621f6cddf4d16",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "606f8a9ecd74aab183bbb3baf543dd3c3f3a28f847b198e926fee4ce6cb93450",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Schedule: September 12 (Best-of-One), September 18 (Best-of-Three) | Sealed | August | Top 251–1,200 (see entry options below) | September 19–20 |",
         "Schedule: October 24 (Best-of-One), October 25 (Bonus Event): Reality Fracture Sealed, October 30 (Best-of-Three) | Standard | September | Top 251–1,200 (see entry options below) | October 31–November 1 |",
@@ -63,28 +63,28 @@
     },
     "direct": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-      "fingerprint": "7ac879a51b9c39602b5c2017eace83b7c1a880c923b92f12ae0c3a1b63e361ad",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "a0a0fa5c89b08815aae1fc055afdc51b1654bbd046c05fd9b037e173970338e2",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Arena Direct for Reality Fracture, October 23–November 1",
         "Arena Direct Event Details: Event open: October 23, 2026, at 8 a.m. Pacific (15:00 UTC)",
         "Arena Direct Event Details: Signup close: November 2, 2026, at 8 a.m. Pacific (16:00 UTC)",
         "Arena Direct Event Details: Event end: November 2, 2026, at 11 a.m. Pacific (19:00 UTC)",
-        "MTG Arena Announcements – October 19, 2026",
-        "Arena Powered Cube Draft, October 20–November 10"
+        "Arena Powered Cube Draft, October 20–November 10",
+        "MTG Arena Announcements – October 19, 2026"
       ],
       "detailsTruncated": false
     },
     "formats": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/state-of-the-formats-2026",
-      "fingerprint": "b9d03f913ec9b83da95b5deb53316e0f40621a8569400de169e60746d5dcd634",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "7ead0c933370ce05301b253376f9c8ef8037c2e9e9dfdabfd07464db85f3c31d",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Timeline: September 22, 2026 : All rebalanced cards with tabletop printings will be reverted to their original printings across all formats. The new banned card list changes for Historic and Brawl will take effect.",
         "Timeline: October 13, 2026 : Alchemy: Reality Fracture will be released. Additional sendoff events are scheduled to celebrate the Alchemy format, including a massive preconstructed deck event featuring all Into the Future decks from the past.",
         "Timeline: February 2, 2027 : The Alchemy format will be removed from MTG Arena with 2027's rotation alongside Nauctis: The Sunken Realm Prerelease events. This includes Alchemy Play, Alchemy Ladder, Alchemy Constructed, Alchemy Direct Challenge, and the Best-of-Three versions of these events.",
-        "MTG Arena Announcements – October 19, 2026",
-        "Arena Powered Cube Draft, October 20–November 10"
+        "Arena Powered Cube Draft, October 20–November 10",
+        "MTG Arena Announcements – October 19, 2026"
       ],
       "detailsTruncated": false
     },
@@ -95,20 +95,20 @@
     },
     "news": {
       "url": "https://magic.wizards.com/en/news/mtg-arena",
-      "fingerprint": "64b0c1a25022904307d1584d67c697fca007b977d70b6481777f01012d7e31b1",
-      "acceptedAt": "2026-10-19T22:58:56.728Z",
+      "fingerprint": "5f59a60b91caa167fa78222f2f0b425b034429b42bf9b6322cd73f9c48535cc3",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "links": [
         "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
         "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-        "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
         "https://magic.wizards.com/en/news/mtg-arena/arena-limited-championship-terms-and-conditions",
-        "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft"
+        "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft",
+        "https://magic.wizards.com/en/news/mtg-arena/star-trek-event-schedule"
       ]
     },
     "announcementsOct19": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
-      "fingerprint": "7c737c1227bba1fb727ffc81fc2972921ca00d6ab567bd82a8ea4251ce4ec1eb",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "1e376ea57defabeefb592d464a6274e377409c672f11cafde76fe80914b77c2b",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 19, 2026",
         "MTG Arena Announcements – October 19, 2026: Arena Powered Cube Returns, October 20—November 9",
@@ -127,19 +127,18 @@
     },
     "cube": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft",
-      "fingerprint": "358dde49297182cd59132b973207374fdd6296289f21d7453345600386a2c459",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "811f9fc969aac34ec1f4e1d433c025f20f840055a39fc014dbf55c6152ef5abb",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Arena Powered Cube Draft, October 20–November 10",
-        "MTG Arena Announcements – October 19, 2026",
-        "Arena Direct for Reality Fracture, October 23–November 1"
+        "MTG Arena Announcements – October 19, 2026"
       ],
       "detailsTruncated": false
     },
     "directTerms": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
-      "fingerprint": "e24502e261a5e4878ba26a80067ef5764098c507183e74538b722fc3cfb707d3",
-      "acceptedAt": "2026-10-19T23:17:47.951Z",
+      "fingerprint": "93907ed54e4b20f0a95532a13f7678b4081007809d5e7f7ce0e4e44d543c3bd0",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
       "scheduleDetails": [
         "Arena Direct for Reality Fracture Play Booster Boxes (October 23–November 1)",
         "Arena Direct for Reality Fracture Play Booster Boxes (October 23–November 1): Start : October 23, 2026, at 8 a.m. Pacific / 15:00 UTC",
@@ -153,6 +152,26 @@
         "March of the Machine Sealed (September 25–27): Start : September 25, 2026, at 8 a.m. Pacific / 15:00 UTC",
         "March of the Machine Sealed (September 25–27): Signups End : September 28, 2026, at 8 a.m. Pacific / 15:00 UTC",
         "March of the Machine Sealed (September 25–27): Event End : September 28, 2026, at 11 a.m. Pacific / 18:00 UTC"
+      ],
+      "detailsTruncated": true
+    },
+    "starTrek": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/star-trek-event-schedule",
+      "fingerprint": "f5f9c2c58916f334ead4debc99608c36c14d074846d11efab9d8550395faad44",
+      "acceptedAt": "2026-10-21T00:26:20.991Z",
+      "scheduleDetails": [
+        "Premier Draft: November 10–February 2: Magic: The Gathering | Star Trek",
+        "Premier Draft: November 10–December 2: Reality Fracture",
+        "Flashback Premier Draft: November 3–12: Pioneer Masters",
+        "Flashback Premier Draft: November 13–22: Tarkir: Dragonstorm",
+        "Flashback Premier Draft: November 23–30: Shadows over Innistrad Remastered (Abominable All-Stars)",
+        "Flashback Premier Draft: December 1–7: Kaldheim",
+        "Flashback Premier Draft: December 8–14: Phyrexia: All Will Be One",
+        "Flashback Premier Draft: December 15–21: Dominaria",
+        "Flashback Premier Draft: December 22–28: Wilds of Eldraine",
+        "Flashback Premier Draft: December 29–January 4: Theros Beyond Death",
+        "Flashback Premier Draft: January 5–11: Magic: The Gathering &reg; | Avatar: The Last Airbender &trade;",
+        "Flashback Premier Draft: January 12–18: Duskmourn: House of Horror"
       ],
       "detailsTruncated": true
     }

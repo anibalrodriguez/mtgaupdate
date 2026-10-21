@@ -65,7 +65,7 @@ test('filtering excludes expired events and keeps conflicts out of the current s
   assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'innistrad' }, now);
   assert.equal(limited.current.length, 0);
-  assert.equal(limited.upcoming.length, 2);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['flashback-vow', 'flashback-mid', 'flashback-sir']);
   assert.equal(groupEvents(data.events, filters, new Date('2026-11-12T12:00:00Z')).conflicts.length, 0);
 });
 
@@ -100,20 +100,37 @@ test('competitive filter combines with format and search without promoting confl
   assert.equal(groups.upcoming.some(event => event.id === 'quick-aetherdrift'), false);
   assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
   assert.deepEqual(limited.conflicts.map(event => event.id), []);
-  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 28);
+  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 91);
 });
 
 test('extended Premier Draft remains scheduled after the older end date and November qualifiers are discoverable', () => {
   const premier = data.events.find(event => event.id === 'premier-fra');
   assert.equal(eventStatus(premier, new Date('2026-11-10T20:00:00Z')), 'scheduled');
-  assert.equal(eventStatus(premier, new Date('2026-12-01T20:00:00Z')), 'boundary');
-  assert.equal(eventStatus(premier, new Date('2026-12-02T20:00:00Z')), 'expired');
+  assert.equal(eventStatus(premier, new Date('2026-12-01T20:00:00Z')), 'scheduled');
+  assert.equal(eventStatus(premier, new Date('2026-12-02T20:00:00Z')), 'boundary');
+  assert.equal(eventStatus(premier, new Date('2026-12-03T20:00:00Z')), 'expired');
   const groups = groupEvents(data.events, { category: 'limited', search: 'star trek', competitive: true }, new Date('2026-11-14T20:00:00Z'));
-  assert.deepEqual(groups.current.map(event => event.id), ['play-in-bo1-nov']);
-  assert.deepEqual(groups.upcoming.map(event => event.id), ['play-in-bo3-nov', 'weekend-nov']);
+  assert.deepEqual(groups.current.map(event => event.id), ['direct-trk-collector', 'play-in-bo1-nov']);
+  assert.deepEqual(groups.upcoming.map(event => event.id), ['play-in-bo3-nov', 'weekend-nov', 'contender-trk-season', 'direct-trk-play', 'play-in-bonus-jan']);
   assert.equal(groups.conflicts.length, 0);
+});
+
+test('Star Trek calendar extensions and cross-year events retain date-only boundaries', () => {
+  const pioneer = data.events.find(event => event.id === 'flashback-pioneer');
+  assert.equal(eventStatus(pioneer, new Date('2026-11-11T20:00:00Z')), 'scheduled');
+  assert.equal(eventStatus(pioneer, new Date('2026-11-12T20:00:00Z')), 'boundary');
+  assert.equal(eventStatus(pioneer, new Date('2026-11-13T20:00:00Z')), 'expired');
+  const cube = groupEvents(data.events, { category: 'limited', search: 'cube' }, new Date('2027-01-02T20:00:00Z'));
+  assert.deepEqual(cube.current.map(event => event.id), ['cube-dec', 'cube-pick-two']);
+  const premier = data.events.find(event => event.id === 'premier-trk');
+  assert.equal(eventStatus(premier, new Date('2027-02-02T20:00:00Z')), 'boundary');
+  assert.equal(eventStatus(premier, new Date('2027-02-03T20:00:00Z')), 'expired');
+  const playIn = data.events.find(event => event.id === 'play-in-bo3-jan');
+  assert.equal(playIn.entryCloses, undefined);
+  assert.equal(playIn.start, '2027-01-22');
+  assert.match(playIn.note, /not a confirmed finish date/);
 });
 
 test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail explicitly', () => {
