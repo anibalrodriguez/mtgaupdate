@@ -113,7 +113,7 @@ test('extended Premier Draft remains scheduled after the older end date and Nove
   assert.equal(eventStatus(premier, new Date('2026-12-03T20:00:00Z')), 'expired');
   const groups = groupEvents(data.events, { category: 'limited', search: 'star trek', competitive: true }, new Date('2026-11-14T20:00:00Z'));
   assert.deepEqual(groups.current.map(event => event.id), ['direct-trk-collector', 'play-in-bo1-nov']);
-  assert.deepEqual(groups.upcoming.map(event => event.id), ['play-in-bo3-nov', 'weekend-nov', 'contender-trk-season', 'direct-trk-play', 'play-in-bonus-jan']);
+  assert.deepEqual(groups.upcoming.map(event => event.id), ['play-in-bo3-nov', 'weekend-nov', 'contender-trk-season', 'direct-trk-play', 'limited-championship-jan', 'play-in-bonus-jan']);
   assert.equal(groups.conflicts.length, 0);
 });
 
@@ -146,6 +146,21 @@ test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail
     const copy = structuredClone(data);
     mutate(copy);
     assert.throws(() => validateSchedule(copy));
+  }
+});
+
+test('January Limited Championship is discoverable by its reviewed draft formats without inventing a finish time', () => {
+  const now = new Date('2027-01-16T18:00:00Z');
+  for (const search of ['reality fracture', 'star trek']) {
+    const groups = groupEvents(data.events, { category: 'limited', search, competitive: true }, now);
+    const championship = groups.current.find(event => event.id === 'limited-championship-jan');
+    assert.ok(championship);
+    assert.equal(championship.match, 'BO3');
+    assert.equal(championship.cost, 'Qualification required');
+    assert.equal(championship.start, '2027-01-16');
+    assert.equal(championship.end, '2027-01-17');
+    assert.equal(championship.entryCloses, undefined);
+    assert.ok(championship.sources.includes('limitedChampionshipRules'));
   }
 });
 

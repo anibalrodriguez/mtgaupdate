@@ -9,7 +9,7 @@ const fingerprint = value => createHash('sha256').update(value).digest('hex');
 
 function officialUrl(value) {
   const url = new URL(value);
-  if (url.origin !== 'https://magic.wizards.com' || url.username || url.password) {
+  if (!['https://magic.wizards.com', 'https://magic.gg'].includes(url.origin) || url.username || url.password) {
     throw new Error('Expected an official HTTPS Wizards source');
   }
   return url;
@@ -46,8 +46,9 @@ function scheduleEvidence(content) {
 export function sourceFingerprint(html, source) {
   const url = officialUrl(source.url);
   const cleaned = html.replace(/<!--[\s\S]*?-->|<(script|style|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '');
-  const content = cleaned.match(/<main\b[^>]*>([\s\S]*?)<\/main\s*>/i)?.[1];
-  if (!content) throw new Error('Official page has no readable main content; review the source or checker');
+  const content = cleaned.match(/<main\b[^>]*>([\s\S]*?)<\/main\s*>/i)?.[1]
+    ?? cleaned.match(/<article\b[^>]*>([\s\S]*?)<\/article\s*>/i)?.[1];
+  if (!content) throw new Error('Official page has no readable main or article content; review the source or checker');
   const links = [...content.matchAll(/<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)]
     .map(match => new URL(decodeEntities(match[1] ?? match[2]), url))
     .filter(link => link.protocol === 'https:')

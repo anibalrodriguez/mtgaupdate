@@ -26,6 +26,19 @@ test('Arena news discovery detects new article URLs without flagging unrelated n
   assert.throws(() => sourceFingerprint(page('No articles'), news), /No Arena article links/);
 });
 
+test('Magic.gg rules articles are monitored without page chrome and detect format changes', async () => {
+  const rules = { title: 'Official tournament rules', url: 'https://magic.gg/events/test-rules' };
+  const html = `<nav>Navigation</nav><article><h2>Event Format</h2><p>Best-of-Three Draft. ${text}</p></article><footer>Footer</footer>`;
+  const original = sourceFingerprint(html, rules);
+  assert.deepEqual(original, sourceFingerprint(html.replace('Navigation', 'Updated navigation'), rules));
+  assert.notEqual(original.fingerprint, sourceFingerprint(html.replace('Best-of-Three', 'Best-of-One'), rules).fingerprint);
+  const [result] = await inspectSources({ rules }, { sources: {} }, async () => response(html));
+  assert.equal(result.status, 'changed');
+  assert.equal(result.fingerprint, original.fingerprint);
+  assert.throws(() => sourceFingerprint(html, { url: 'https://magic.gg.example.com/events/test-rules' }), /official HTTPS/);
+  assert.throws(() => sourceFingerprint(html, { url: 'https://user:password@magic.gg/events/test-rules' }), /official HTTPS/);
+});
+
 test('fetch comparison flags changed, new, and moved sources without mutating accepted fingerprints', async () => {
   const original = page();
   const saved = baseline(original);
