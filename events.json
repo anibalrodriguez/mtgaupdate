@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-10-27T01:45:24Z",
+  "verifiedAt": "2026-10-29T19:14:03Z",
   "sources": {
     "starTrek": {
       "title": "Magic: The Gathering | Star Trek event schedule, October 20, 2026",
@@ -162,6 +162,9 @@
     {"id":"gladiator-challenge","name":"All-Access Challenge","format":"Gladiator","category":"constructed","start":"2027-01-05","end":"2027-01-12","sources":["starTrek"],"verifiedAt":"2026-10-21T00:23:10Z"},
     {"id":"mixed-up","name":"Mixed-Up Premier Draft","format":"Mixed-Up","category":"limited","start":"2027-01-12","end":"2027-02-02","sources":["starTrek"],"verifiedAt":"2026-10-21T00:23:10Z"},
     {"id":"future-bo1","name":"Future Standard Challenge","format":"Future Standard","match":"BO1","category":"constructed","start":"2027-01-19","end":"2027-01-26","sources":["starTrek"],"verifiedAt":"2026-10-21T00:23:10Z"},
-    {"id":"future-bo3","name":"Future Standard Challenge","format":"Future Standard","match":"BO3","category":"constructed","start":"2027-01-19","end":"2027-01-26","sources":["starTrek"],"verifiedAt":"2026-10-21T00:23:10Z"}
+    {"id":"future-bo3","name":"Future Standard Challenge","format":"Future Standard","match":"BO3","category":"constructed","start":"2027-01-19","end":"2027-01-26","sources":["starTrek"],"verifiedAt":"2026-10-21T00:23:10Z"},
+    {"id":"arena-championship-14","name":"Arena Championship 14","format":"Pioneer","category":"constructed","start":"2027-03-13","end":"2027-03-14","competitive":true,"cost":"Qualification required","note":"Published dates and format only; qualification is required. Exact start, entry cutoff, and finish times are not announced.","sources":["qualifiers"],"verifiedAt":"2026-10-29T19:14:03Z"},
+    {"id":"arena-championship-15","name":"Arena Championship 15","format":"Standard","category":"constructed","start":"2027-07-10","end":"2027-07-11","competitive":true,"cost":"Qualification required","note":"Published dates and format only; qualification is required. Exact start, entry cutoff, and finish times are not announced.","sources":["qualifiers"],"verifiedAt":"2026-10-29T19:14:03Z"},
+    {"id":"arena-championship-16","name":"Arena Championship 16","format":"Historic","category":"constructed","start":"2027-10-16","end":"2027-10-17","competitive":true,"cost":"Qualification required","note":"Published dates and format only; qualification is required. Exact start, entry cutoff, and finish times are not announced.","sources":["qualifiers"],"verifiedAt":"2026-10-29T19:14:03Z"}
   ]
 }

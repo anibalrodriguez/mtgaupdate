@@ -43,9 +43,12 @@
     },
     "qualifiers": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/qualifier-play-ins-and-qualifier-weekend-information",
-      "fingerprint": "59f3fa093c62be66f036880eb83d5dd6fb79b4f1983af72b88def13f5e1a6466",
-      "acceptedAt": "2026-10-27T01:49:15.662Z",
+      "fingerprint": "e0e3544217d0cc23da52d43e0f2f77ac852ad2055b67e7735685df7bef0e34da",
+      "acceptedAt": "2026-10-29T19:14:20.044Z",
       "scheduleDetails": [
+        "2027 Arena Championships: AC14: March 13–14, 2027 | Pioneer | September–December 2026 |",
+        "2027 Arena Championships: AC15: July 10–11, 2027 | Standard | January–April 2027 |",
+        "2027 Arena Championships: AC16: October 16–17, 2027 | Historic | May–August 2027 |",
         "Schedule: September 12 (Best-of-One), September 18 (Best-of-Three) | Sealed | August | Top 251–1,200 (see entry options below) | September 19–20 |",
         "Schedule: October 24 (Best-of-One), October 25 (Bonus Event): Reality Fracture Sealed, October 30 (Best-of-Three) | Standard | September | Top 251–1,200 (see entry options below) | October 31–November 1 |",
         "Schedule: November 14 (Best-of-One), November 20 (Best-of-Three) | Sealed | October | Top 251–1,200 (see entry options below) | November 21–22 |",
@@ -54,10 +57,7 @@
         "Ranked Season – Ladder Play: September 2026 | August 31 | September 30 | October 2026 |",
         "Ranked Season – Ladder Play: October 2026 | September 30 | October 31 | November 2026 |",
         "Ranked Season – Ladder Play: November 2026 | October 31 | November 30 | December 2026 |",
-        "Arena Championship Qualifier Weekend: September 19–20 | Sealed | August | Top 250 | September 12, September 18 |",
-        "Arena Championship Qualifier Weekend: October 31–November 1 | Standard | September | Top 250 | October 24, October 25, October 30 |",
-        "Arena Championship Qualifier Weekend: November 21–22 | Sealed | October | Top 250 | November 14, November 20 |",
-        "Arena Championship Qualifier Weekend: December 19–20 | Pioneer | November | Top 250 | December 12, December 18 |"
+        "Arena Championship Qualifier Weekend: September 19–20 | Sealed | August | Top 250 | September 12, September 18 |"
       ],
       "detailsTruncated": true
     },
@@ -158,8 +158,8 @@
     },
     "starTrek": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/star-trek-event-schedule",
-      "fingerprint": "9cb17cc527d23ff5a10c88558ed2802b48a11e5d00aa9afcf0839b0006dc0089",
-      "acceptedAt": "2026-10-27T01:49:15.662Z",
+      "fingerprint": "cd1518ee7347e47f5defc277a0c97e81927092ad114d27b46c8f90417afa5f99",
+      "acceptedAt": "2026-10-29T19:14:20.044Z",
       "scheduleDetails": [
         "Premier Draft: November 10–February 2: Magic: The Gathering | Star Trek",
         "Premier Draft: November 10–December 2: Reality Fracture",
@@ -178,8 +178,8 @@
     },
     "announcementsOct26": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-26-2026",
-      "fingerprint": "f354e6380bad5fab7df1eef2f96dce6b178c124897ebfc328cf7e416f29d6e66",
-      "acceptedAt": "2026-10-27T01:49:15.662Z",
+      "fingerprint": "53fc33f06d40b94a00dd386517b94cd31bab65603d93308dd33edb28a640eb50",
+      "acceptedAt": "2026-10-29T19:14:20.044Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 26, 2026",
         "MTG Arena Announcements – October 26, 2026: Early-Access Event, November 4",

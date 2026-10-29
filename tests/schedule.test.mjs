@@ -102,7 +102,7 @@ test('competitive filter combines with format and search without promoting confl
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
   assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
   assert.deepEqual(limited.conflicts.map(event => event.id), []);
-  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 91);
+  assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 94);
 });
 
 test('extended Premier Draft remains scheduled after the older end date and November qualifiers are discoverable', () => {
@@ -168,6 +168,27 @@ test('agenda day keys preserve date-only dates and convert exact starts to the c
   assert.equal(dateKey('2026-10-20', 'America/Los_Angeles'), '2026-10-20');
   assert.equal(dateKey('2026-10-20T01:00:00Z', 'America/Los_Angeles'), '2026-10-19');
   assert.equal(dateKey('2026-10-20T01:00:00Z', 'Asia/Tokyo'), '2026-10-20');
+});
+
+test('2027 Arena Championships are discoverable by format and retain uncertain date-only boundaries', () => {
+  for (const [id, format, start, end] of [
+    ['arena-championship-14', 'Pioneer', '2027-03-13', '2027-03-14'],
+    ['arena-championship-15', 'Standard', '2027-07-10', '2027-07-11'],
+    ['arena-championship-16', 'Historic', '2027-10-16', '2027-10-17']
+  ]) {
+    const groups = groupEvents(data.events, { category: 'constructed', search: format.toLowerCase(), competitive: true }, new Date('2026-10-29T19:00:00Z'));
+    const event = groups.upcoming.find(event => event.id === id);
+    assert.ok(event);
+    assert.equal(event.start, start);
+    assert.equal(event.end, end);
+    assert.equal(event.cost, 'Qualification required');
+    assert.equal(event.entryCloses, undefined);
+    assert.equal(event.match, undefined);
+    assert.ok(event.sources.includes('qualifiers'));
+    assert.equal(eventStatus(event, new Date(`${start}T20:00:00Z`)), 'boundary');
+    assert.equal(eventStatus(event, new Date(`${end}T20:00:00Z`)), 'boundary');
+    assert.equal(eventStatus(event, new Date(Date.parse(`${end}T20:00:00Z`) + 86400000)), 'expired');
+  }
 });
 
 test('upcoming windows include the final calendar day and preserve the source list', () => {
