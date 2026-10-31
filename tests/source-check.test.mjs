@@ -85,6 +85,22 @@ test('review reports compare accepted date evidence with current evidence and di
   assert.deepEqual({ saved, events }, before);
 });
 
+test('ranked-season evidence includes numeric draft dates and season timing changes', async () => {
+  const original = page(`
+    <h2>November 2026 Ranked Season</h2>
+    <p>The November ranked season begins October 31, 2026, at 19:05 UTC and ends November 30, 2026, at 20:00 UTC.</p>
+    <table><tr><td>Premier Draft: Innistrad: Midnight Hunt</td><td>Player Draft</td><td>10/27/2026</td><td>11/2/2026</td></tr></table>
+    <h2>Season Rewards</h2>
+    <p>November rewards arrive at the start of the December ranked season, November 30 at 12:05 p.m. PT.</p>`);
+  const saved = baseline(original);
+  const results = await inspectSources({ schedule: source }, saved, async () => response(original.replace('11/2/2026', '11/7/2026')));
+  const report = reviewBody(results, 'now');
+  assert.match(report, /Previously accepted: .*Midnight Hunt.*11\/2\/2026/);
+  assert.match(report, /Currently published: .*Midnight Hunt.*11\/7\/2026/);
+  assert.ok(results[0].scheduleDetails.some(detail => detail.includes('19:05 UTC') && detail.includes('20:00 UTC')));
+  assert.ok(results[0].scheduleDetails.some(detail => detail.includes('November rewards arrive')));
+});
+
 test('new article discovery fetches evidence, skips known links, and exposes articles beyond its request limit', async () => {
   const url = id => `https://magic.wizards.com/en/news/mtg-arena/${id}`;
   const links = ['old', 'tracked', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth'].map(url);

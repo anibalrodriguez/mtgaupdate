@@ -56,6 +56,8 @@ test('reviewed Arena Direct exports its accepted schedule while Contender remain
   const contender = data.events.find(event => event.id === 'contender');
   assert.match(calendarUnavailableReason(contender), /conflicting dates/);
   assert.throws(() => createCalendar(contender, data.sources.announcements.url, now), /conflicting dates/);
+  const midnightHunt = data.events.find(event => event.id === 'flashback-mid');
+  assert.throws(() => createCalendar(midnightHunt, data.sources.rankedSeason.url, now), /conflicting dates/);
 });
 
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {

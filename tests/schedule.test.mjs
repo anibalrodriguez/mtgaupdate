@@ -15,8 +15,10 @@ test('optional season rewards keep schedules backward compatible and convert the
   delete withoutRewards.seasonRewards;
   assert.equal(validateSchedule(withoutRewards), withoutRewards);
   const rewards = data.seasonRewards;
-  assert.match(formatDate(rewards.distributedAt, 'America/Los_Angeles', true), /Oct 31, 2026, 12:05 PM PDT/);
-  assert.match(formatDate(rewards.distributedAt, 'UTC', true), /Oct 31, 2026, 7:05 PM UTC/);
+  assert.match(formatDate(rewards.distributedAt, 'America/Los_Angeles', true), /Nov 30, 2026, 12:05 PM PST/);
+  assert.match(formatDate(rewards.distributedAt, 'UTC', true), /Nov 30, 2026, 8:05 PM UTC/);
+  assert.equal(new Date('2026-10-31T20:00:00Z') >= new Date(rewards.distributedAt), false);
+  assert.equal(new Date('2026-11-30T20:05:00Z') >= new Date(rewards.distributedAt), true);
   const now = new Date('2026-10-19T12:00:00Z');
   assert.deepEqual(groupEvents(data.events, filters, now), groupEvents(withoutRewards.events, filters, now));
 });
@@ -62,16 +64,31 @@ test('filtering excludes expired events and keeps conflicts out of the current s
   const groups = groupEvents(data.events, filters, now);
   assert.equal(groups.current.some(event => event.id === 'quick-fra-oct'), false);
   assert.equal(groups.current.some(event => event.conflict), false);
-  assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
+  assert.deepEqual(groups.conflicts.map(event => event.id), ['contender', 'flashback-mid']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'innistrad' }, now);
   assert.equal(limited.current.length, 0);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['flashback-vow', 'flashback-mid', 'flashback-sir']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['flashback-vow', 'flashback-sir']);
+  assert.deepEqual(limited.conflicts.map(event => event.id), ['flashback-mid']);
   assert.equal(groupEvents(data.events, filters, new Date('2026-11-12T12:00:00Z')).conflicts.length, 0);
 });
 
 test('timezone conversion reflects Pacific daylight saving changes', () => {
   assert.match(formatDate('2026-10-24T13:00:00Z', 'America/Los_Angeles', true), /6:00 AM PDT/);
   assert.match(formatDate('2026-11-02T16:00:00Z', 'America/Los_Angeles', true), /8:00 AM PST/);
+});
+
+test('Midnight Hunt remains disputed through the later published end and cannot appear as confirmed', () => {
+  const event = data.events.find(event => event.id === 'flashback-mid');
+  for (const day of ['2026-10-31', '2026-11-03', '2026-11-07']) {
+    const now = new Date(`${day}T20:00:00Z`);
+    const groups = groupEvents(data.events, { category: 'limited', search: 'midnight hunt' }, now);
+    assert.equal(eventStatus(event, now), 'conflict');
+    assert.deepEqual(groups.conflicts, [event]);
+    assert.deepEqual(groups.current, []);
+    assert.deepEqual(groups.upcoming, []);
+  }
+  assert.equal(eventStatus(event, new Date('2026-11-08T20:00:00Z')), 'expired');
+  assert.equal(event.entryCloses, undefined);
 });
 
 test('reviewed Arena Direct moves to the schedule while Contender retains its disputed range', () => {

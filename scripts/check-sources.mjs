@@ -26,7 +26,7 @@ function decodeEntities(value) {
 
 function scheduleEvidence(content) {
   const details = [];
-  const date = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}\b|\b\d{4}-\d{2}-\d{2}\b/i;
+  const date = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}\b|\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\/\d{1,2}\/\d{4}\b/i;
   const milestone = /^(?:event open|start|signups? (?:end|close)|entry (?:closes|window closes)|event end)\s*:/i;
   let heading = '';
   for (const match of content.matchAll(/<(h[1-6]|li|p|tr)\b[^>]*>([\s\S]*?)<\/\1\s*>/gi)) {
@@ -36,7 +36,8 @@ function scheduleEvidence(content) {
     const isMilestone = milestone.test(text);
     const candidate = isMilestone ? text.split(/\s*(?:\u2014|\bOR once\b)/i)[0].trim() : text;
     if (!date.test(candidate) || candidate.length > 300) continue;
-    if (match[1].toLowerCase() === 'p' && !isMilestone && !/\b(?:draft|sealed|qualifier|cube)\b.*\b(?:until|through|extended|available)\b/i.test(candidate)) continue;
+    if (match[1].toLowerCase() === 'p' && !isMilestone
+      && !/\b(?:draft|sealed|qualifier|cube)\b.*\b(?:until|through|extended|available)\b|\branked season\b/i.test(candidate)) continue;
     const detail = heading && !isHeading ? `${heading}: ${candidate}` : candidate;
     if (!details.includes(detail)) details.push(detail);
   }
