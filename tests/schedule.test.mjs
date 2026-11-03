@@ -109,6 +109,20 @@ test('reviewed Arena Direct moves to the schedule while Contender retains its di
   assert.equal(contender.entryCloses, undefined);
 });
 
+test('Edge of Eternities Arena Direct remains available after its summary end and closes at reviewed deadlines', () => {
+  const event = data.events.find(event => event.id === 'direct-eoe');
+  assert.equal(eventStatus(event, new Date('2026-11-06T15:59:59Z')), 'upcoming');
+  assert.equal(eventStatus(event, new Date('2026-11-06T16:00:00Z')), 'live');
+  assert.match(formatDate(event.start, 'America/Los_Angeles', true), /Nov 6, 2026, 8:00 AM PST/);
+  const groups = groupEvents(data.events, { category: 'limited', search: 'edge of eternities sealed', competitive: true }, new Date('2026-11-09T15:59:59Z'));
+  assert.deepEqual(groups.current, [event]);
+  assert.equal(eventStatus(event, new Date('2026-11-09T16:00:00Z')), 'entry-closed');
+  assert.equal(eventStatus(event, new Date('2026-11-09T19:00:00Z')), 'expired');
+  assert.match(formatDate(event.entryCloses, 'America/Los_Angeles', true), /Nov 9, 2026, 8:00 AM PST/);
+  assert.match(formatDate(event.end, 'America/Los_Angeles', true), /Nov 9, 2026, 11:00 AM PST/);
+  assert.equal(eventStatus(data.events.find(event => event.id === 'direct-fra'), new Date('2026-11-03T04:00:00Z')), 'expired');
+});
+
 test('competitive filter combines with format and search without promoting conflicting dates', () => {
   const now = new Date('2026-10-19T12:00:00Z');
   const groups = groupEvents(data.events, { ...filters, competitive: true }, now);
@@ -117,7 +131,7 @@ test('competitive filter combines with format and search without promoting confl
   assert.equal(groups.upcoming.some(event => event.id === 'quick-aetherdrift'), false);
   assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'direct-eoe', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
   assert.deepEqual(limited.conflicts.map(event => event.id), []);
   assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 94);
 });

@@ -48,7 +48,7 @@ test('conflicts and incompatible or invalid dates fail instead of inventing a ca
 test('reviewed Arena Direct exports its accepted schedule while Contender remains blocked', () => {
   const event = data.events.find(event => event.id === 'direct-fra');
   assert.equal(calendarUnavailableReason(event), '');
-  const calendar = unfold(createCalendar(event, data.sources.direct.url, now));
+  const calendar = unfold(createCalendar(event, data.sources[event.sources[0]].url, now));
   assert.match(calendar, /DTSTART:20261023T150000Z\r\n/);
   assert.match(calendar, /DTEND:20261102T190000Z\r\n/);
   assert.match(calendar, /Entry closes: Nov 2\\, 2026\\, 4:00 PM UTC/);
@@ -58,6 +58,18 @@ test('reviewed Arena Direct exports its accepted schedule while Contender remain
   assert.throws(() => createCalendar(contender, data.sources.announcements.url, now), /conflicting dates/);
   const midnightHunt = data.events.find(event => event.id === 'flashback-mid');
   assert.throws(() => createCalendar(midnightHunt, data.sources.rankedSeason.url, now), /conflicting dates/);
+});
+
+test('Edge of Eternities Arena Direct export preserves the reviewed November 9 cutoff', () => {
+  const event = data.events.find(event => event.id === 'direct-eoe');
+  const calendar = unfold(createCalendar(event, data.sources[event.sources[0]].url, now));
+  assert.match(calendar, /DTSTART:20261106T160000Z\r\n/);
+  assert.match(calendar, /DTEND:20261109T190000Z\r\n/);
+  assert.match(calendar, /Entry closes: Nov 9\\, 2026\\, 4:00 PM UTC/);
+  assert.match(calendar, /SUMMARY:Arena Direct - Edge of Eternities Sealed\r\n/);
+  assert.match(calendar, /Entry cost: 6\\,000 gems/);
+  assert.match(calendar, /Matches in progress may finish/);
+  assert.match(calendar, /URL:https:\/\/magic.wizards.com\/en\/news\/mtg-arena\/arena-direct\r\n/);
 });
 
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {
