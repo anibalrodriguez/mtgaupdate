@@ -131,9 +131,34 @@ test('competitive filter combines with format and search without promoting confl
   assert.equal(groups.upcoming.some(event => event.id === 'quick-aetherdrift'), false);
   assert.deepEqual(groups.conflicts.map(event => event.id), ['contender']);
   const limited = groupEvents(data.events, { category: 'limited', search: 'sealed', competitive: true }, now);
-  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'direct-eoe', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
+  assert.deepEqual(limited.upcoming.map(event => event.id), ['direct-fra', 'play-in-bonus', 'direct-eoe', 'direct-trk-collector', 'play-in-bo1-nov', 'play-in-bo3-nov', 'weekend-nov', 'play-in-bonus-jan']);
   assert.deepEqual(limited.conflicts.map(event => event.id), []);
   assert.equal(Object.values(groupEvents(data.events, filters, now)).flat().length, 94);
+});
+
+test('Reality Fracture Pick-Two stays discoverable after November 9 without inventing exact times', () => {
+  const event = data.events.find(event => event.id === 'pick-two');
+  const groups = groupEvents(data.events, { category: 'limited', search: 'pick-two' }, new Date('2026-11-10T20:00:00Z'));
+  assert.ok(groups.current.includes(event));
+  assert.equal(eventStatus(event, new Date('2026-12-01T20:00:00Z')), 'scheduled');
+  assert.equal(eventStatus(event, new Date('2026-12-02T20:00:00Z')), 'boundary');
+  assert.equal(eventStatus(event, new Date('2026-12-03T20:00:00Z')), 'expired');
+  assert.equal(event.start, '2026-09-29');
+  assert.equal(event.entryCloses, undefined);
+  assert.match(event.note, /ranked-season table still says November 9/);
+});
+
+test('Star Trek Arena Direct stays open past its summary end and respects the reviewed PST cutoffs', () => {
+  const event = data.events.find(event => event.id === 'direct-trk-collector');
+  assert.equal(eventStatus(event, new Date('2026-11-13T15:59:59Z')), 'upcoming');
+  assert.equal(eventStatus(event, new Date('2026-11-13T16:00:00Z')), 'live');
+  const groups = groupEvents(data.events, { category: 'limited', search: 'star trek sealed', competitive: true }, new Date('2026-11-23T15:59:59Z'));
+  assert.deepEqual(groups.current, [event]);
+  assert.equal(eventStatus(event, new Date('2026-11-23T16:00:00Z')), 'entry-closed');
+  assert.equal(eventStatus(event, new Date('2026-11-23T19:00:00Z')), 'expired');
+  assert.match(formatDate(event.start, 'America/Los_Angeles', true), /Nov 13, 2026, 8:00 AM PST/);
+  assert.match(formatDate(event.entryCloses, 'America/Los_Angeles', true), /Nov 23, 2026, 8:00 AM PST/);
+  assert.match(formatDate(event.end, 'America/Los_Angeles', true), /Nov 23, 2026, 11:00 AM PST/);
 });
 
 test('extended Premier Draft remains scheduled after the older end date and November qualifiers are discoverable', () => {

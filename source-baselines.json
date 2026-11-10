@@ -3,8 +3,8 @@
   "sources": {
     "set": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/reality-fracture-event-schedule",
-      "fingerprint": "e2e5f28dfbd9de97f56761f233890c50f1f8d128a80050123246d9fe97290b9e",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "06b9796debbc3d7501a122a1b80fba748025a2f8b6dd76eb634f7f883821b406",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "Quick Draft: September 29–October 7: Wilds of Eldraine",
         "Quick Draft: October 19–26: Aetherdrift",
@@ -13,7 +13,7 @@
         "Flashback Premier Draft: October 20–26: Innistrad: Crimson Vow",
         "Flashback Premier Draft: October 27–November 2: Innistrad: Midnight Hunt",
         "Flashback Premier Draft: November 3–10: Pioneer Masters",
-        "Pick-Two Draft: September 29–November 9: Reality Fracture",
+        "Pick-Two Draft: September 29–December 2: Reality Fracture",
         "Traditional Draft: September 29–November 9: Reality Fracture",
         "Quick Draft: October 8–18: Reality Fracture",
         "Quick Draft: October 27–November 6: Reality Fracture",
@@ -23,8 +23,8 @@
     },
     "announcements": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-12-2026",
-      "fingerprint": "a56b016de3e3ffc60b0eca2b6cb5f1a526c0105767d8317828b839f9c46036c9",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "97087cc5528491aac96e0358e9923e77b5ff5dbe7f2cbded180f9e274ecaf2db",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 12, 2026",
         "MTG Arena Announcements – October 12, 2026: Reality Fracture Contender Draft, October 13–November 9",
@@ -43,8 +43,8 @@
     },
     "qualifiers": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/qualifier-play-ins-and-qualifier-weekend-information",
-      "fingerprint": "39bc2f91aab5671ac6b0c77437bd34b6f1d81deca9434683166f7ed2858a8b6e",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "2a3f5f81fcb2eeb8b9981265921f0482b9cfe3fcebbcd182b7b7a27d39e7d8a8",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "2027 Arena Championships: AC14: March 13–14, 2027 | Pioneer | September–December 2026 |",
         "2027 Arena Championships: AC15: July 10–11, 2027 | Standard | January–April 2027 |",
@@ -63,26 +63,28 @@
     },
     "direct": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-      "fingerprint": "7804ba66c73e7fdb7acd9afff63b1f9aef237d39219267c55408d21419138b9b",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "f854a0ec855bf1b86e7d0a0268a39260a0eae639f304d72572a0ab6b474e8a8b",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
-        "Arena Direct for Edge of Eternities, November 6–8",
-        "Arena Direct Event Details: Event open: November 6, 2026, at 8 a.m. Pacific (16:00 UTC)",
-        "Arena Direct Event Details: Signup close: November 9, 2026, at 8 a.m. Pacific (16:00 UTC)",
-        "Arena Direct Event Details: Event end: November 9, 2026, at 11 a.m. Pacific (19:00 UTC)",
+        "Arena Direct for Magic: The Gathering® | Star Trek™, November 13–22",
+        "Arena Direct Event Details: Event open: November 13, 2026, at 8 a.m. Pacific (16:00 UTC)",
+        "Arena Direct Event Details: Signup close: November 23, 2026, at 8 a.m. Pacific (16:00 UTC)",
+        "Arena Direct Event Details: Event end: November 23, 2026, at 11 a.m. Pacific (19:00 UTC)",
+        "MTG Arena Announcements – November 9, 2026",
         "MTG Arena Announcements – November 2, 2026"
       ],
       "detailsTruncated": false
     },
     "formats": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/state-of-the-formats-2026",
-      "fingerprint": "d8b45278a1554632bfbc9bc55834878f2fb2125b8ffd73334a6ab3b79cd5f77c",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "5c998e117df2c8fd566f257ec3d326c475759e8860117a39e3ec3089ad414e87",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "Timeline: September 22, 2026 : All rebalanced cards with tabletop printings will be reverted to their original printings across all formats. The new banned card list changes for Historic and Brawl will take effect.",
         "Timeline: October 13, 2026 : Alchemy: Reality Fracture will be released. Additional sendoff events are scheduled to celebrate the Alchemy format, including a massive preconstructed deck event featuring all Into the Future decks from the past.",
         "Timeline: February 2, 2027 : The Alchemy format will be removed from MTG Arena with 2027's rotation alongside Nauctis: The Sunken Realm Prerelease events. This includes Alchemy Play, Alchemy Ladder, Alchemy Constructed, Alchemy Direct Challenge, and the Best-of-Three versions of these events.",
-        "Arena Direct for Edge of Eternities, November 6–8",
+        "MTG Arena Announcements – November 9, 2026",
+        "Arena Direct for Magic: The Gathering® | Star Trek™, November 13–22",
         "MTG Arena Announcements – November 2, 2026"
       ],
       "detailsTruncated": false
@@ -94,20 +96,20 @@
     },
     "news": {
       "url": "https://magic.wizards.com/en/news/mtg-arena",
-      "fingerprint": "3b85f4085c2cfd8433a61b6f6d7540a0d2265dec09cb78184db1cb858bd57234",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "5bfa985cd5ff1fe000ebf874b28000f9960fd1b961e49f9056f0f1961d25e39c",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "links": [
         "https://magic.wizards.com/en/news/mtg-arena/announcements-november-2-2026",
+        "https://magic.wizards.com/en/news/mtg-arena/announcements-november-9-2026",
         "https://magic.wizards.com/en/news/mtg-arena/announcements-october-26-2026",
         "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-        "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
         "https://magic.wizards.com/en/news/mtg-arena/ranked-season"
       ]
     },
     "announcementsOct19": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
-      "fingerprint": "dc5d23a260329d691f10e05261ec380369ee623a03f901c036eef0f12134cc14",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "698d0de5dbc256ac756290b0e28152037aa5ccf7d893d89938ed0ff52161ac41",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 19, 2026",
         "MTG Arena Announcements – October 19, 2026: Arena Powered Cube Returns, October 20—November 9",
@@ -126,20 +128,25 @@
     },
     "cube": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft",
-      "fingerprint": "64a207a2a5f6b9c8437efa67e58c48fcf5c7cb79cb7f64b818b4aade2438764f",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "8a4466571f98379ae76358391d247a40d539babeffc7fd776a7d307642f22661",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "Arena Powered Cube Draft, October 20–November 10",
-        "Arena Direct for Edge of Eternities, November 6–8",
+        "MTG Arena Announcements – November 9, 2026",
+        "Arena Direct for Magic: The Gathering® | Star Trek™, November 13–22",
         "MTG Arena Announcements – November 2, 2026"
       ],
       "detailsTruncated": false
     },
     "directTerms": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/arena-direct-terms-and-conditions",
-      "fingerprint": "f477bc32ec19eb4b54cd8ccd0eb6eff57bc1e35ec3dba5bf8e22dd3c4396236c",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "ed753951255a8007cfa4f75d0fd76c28864b163b30e6e481c595f1d20c359fd2",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
+        "Arena Direct for Magic: The Gathering® | Star Trek™ Collector Booster Boxes (November 13–22)",
+        "Arena Direct for Magic: The Gathering® | Star Trek™ Collector Booster Boxes (November 13–22): Start : November 13, 2026, at 8 a.m. Pacific / 16:00 UTC",
+        "Arena Direct for Magic: The Gathering® | Star Trek™ Collector Booster Boxes (November 13–22): Signups End : November 23, 2026, at 8 a.m. Pacific / 16:00 UTC",
+        "Arena Direct for Magic: The Gathering® | Star Trek™ Collector Booster Boxes (November 13–22): Event End : November 23, 2026, at 11 a.m. Pacific / 19:00 UTC",
         "Arena Direct for Edge of Eternities Play Booster Boxes (November 6–8)",
         "Arena Direct for Edge of Eternities Play Booster Boxes (November 6–8): Start : November 6, 2026, at 8 a.m. Pacific / 16:00 UTC",
         "Arena Direct for Edge of Eternities Play Booster Boxes (November 6–8): Signups End : November 9, 2026, at 8 a.m. Pacific / 16:00 UTC",
@@ -147,18 +154,14 @@
         "Reality Fracture Sealed (October 23–November 1)",
         "Reality Fracture Sealed (October 23–November 1): Start : October 23, 2026, at 8 a.m. Pacific / 15:00 UTC",
         "Reality Fracture Sealed (October 23–November 1): Signups End : November 2, 2026, at 8 a.m. Pacific / 16:00 UTC",
-        "Reality Fracture Sealed (October 23–November 1): Event End : November 2, 2026, at 11 a.m. Pacific / 19:00 UTC",
-        "Reality Fracture Sealed (October 2–11)",
-        "Reality Fracture Sealed (October 2–11): Start : October 2, 2026, at 8 a.m. Pacific / 15:00 UTC",
-        "Reality Fracture Sealed (October 2–11): Signups End : October 12, 2026, at 1 a.m. Pacific / 08:00 UTC",
-        "Reality Fracture Sealed (October 2–11): Event End : October 12, 2026, at 4 a.m. Pacific / 11:00 UTC"
+        "Reality Fracture Sealed (October 23–November 1): Event End : November 2, 2026, at 11 a.m. Pacific / 19:00 UTC"
       ],
       "detailsTruncated": true
     },
     "starTrek": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/star-trek-event-schedule",
-      "fingerprint": "0002687d6a01fed636ae169af9cc2768cd4d86d0d8a651b9e5276f23b75a668f",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "fcba2e6dc3f6ec24b456c23470397ad823c72b9f6eac33670b1da91051ba73b6",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "Premier Draft: November 10–February 2: Magic: The Gathering | Star Trek",
         "Premier Draft: November 10–December 2: Reality Fracture",
@@ -177,8 +180,8 @@
     },
     "announcementsOct26": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-october-26-2026",
-      "fingerprint": "d7cf0277f1db9c1f99ab0bbdb859851093f6efcfdb146f640499bb842cf533f6",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "33d5056babbda6b6f0fb8b45e3fac04dadbec2e582e688939021d91d21eed5cc",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "MTG Arena Announcements – October 26, 2026",
         "MTG Arena Announcements – October 26, 2026: Early-Access Event, November 4",
@@ -208,8 +211,8 @@
     },
     "rankedSeason": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/ranked-season",
-      "fingerprint": "90c3711ba70b52e2f3d63ce94c38b8903a9c87434f02eab642d26c2f749dda65",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "d8cb4b7e8f7f425749ee1ac28052acb962ac77f15b8d6baba816f46e08e87989",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "November 2026 Ranked Season: The November 2026 ranked season begins October 31, 2026, at 12:05 p.m. PT (19:05 UTC) and ends on November 30, 2026, at 12:00 p.m. PT (20:00 UTC).",
         "November 2026 Ranked Season: Premier Draft: Reality Fracture | Player Draft | 9/29/2026 | 12/1/2026 |",
@@ -228,8 +231,8 @@
     },
     "announcementsNov2": {
       "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-november-2-2026",
-      "fingerprint": "b52e7c7a99f781e1200205fa70a656b3cec6f504faf04ead1ab512d7d8401e81",
-      "acceptedAt": "2026-11-03T04:44:45.266Z",
+      "fingerprint": "d9a69c927829f4bfa4ff5000b18b2fd4c9c4301ee1534ffab9434e17b14fad97",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
       "scheduleDetails": [
         "MTG Arena Announcements – November 2, 2026",
         "MTG Arena Announcements – November 2, 2026: Magic: The Gathering ® | Star Trek ™ Updates Early-Access Event, November 4",
@@ -243,6 +246,26 @@
         "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 14: Best-of-One Qualifier Play-In",
         "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 20: Best-of-Three Qualifier Play-In",
         "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 21–22: Qualifier Weekend"
+      ],
+      "detailsTruncated": true
+    },
+    "announcementsNov9": {
+      "url": "https://magic.wizards.com/en/news/mtg-arena/announcements-november-9-2026",
+      "fingerprint": "d9325b79543a2c7d7cd0552033dd99a55dd20734d1dea00fec41143cefed13c7",
+      "acceptedAt": "2026-11-10T01:52:31.144Z",
+      "scheduleDetails": [
+        "MTG Arena Announcements – November 9, 2026",
+        "MTG Arena Announcements – November 9, 2026: Magic: The Gathering ® | Star Trek ™ Releases Tomorrow, November 10!",
+        "MTG Arena Announcements – November 9, 2026: Arena Direct for Magic: The Gathering | Star Trek Sealed, November 13–22",
+        "MTG Arena Announcements – November 9, 2026: MagicCon: Atlanta, November 13–15",
+        "Magic: The Gathering | Star Trek Releases Tomorrow! (November 10)",
+        "Arena Direct for Magic: The Gathering | Star Trek Sealed (November 13–22)",
+        "MagicCon: Atlanta (November 13–15)",
+        "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 14: Best-of-One Qualifier Play-In",
+        "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 20: Best-of-Three Qualifier Play-In",
+        "November Qualifier Format: Magic: The Gathering | Star Trek Sealed: November 21–22: Qualifier Weekend",
+        "November Season Rewards: Players will receive their rewards for the November 2026 season at the start of the December 2026 ranked season (12:05 p.m. PT on November 30).",
+        "Arena Direct for Magic: The Gathering® | Star Trek™, November 13–22"
       ],
       "detailsTruncated": true
     }

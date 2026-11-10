@@ -69,7 +69,19 @@ test('Edge of Eternities Arena Direct export preserves the reviewed November 9 c
   assert.match(calendar, /SUMMARY:Arena Direct - Edge of Eternities Sealed\r\n/);
   assert.match(calendar, /Entry cost: 6\\,000 gems/);
   assert.match(calendar, /Matches in progress may finish/);
-  assert.match(calendar, /URL:https:\/\/magic.wizards.com\/en\/news\/mtg-arena\/arena-direct\r\n/);
+  assert.match(calendar, /URL:https:\/\/magic.wizards.com\/en\/news\/mtg-arena\/arena-direct-terms-and-conditions\r\n/);
+});
+
+test('Star Trek Arena Direct export includes its reviewed November 23 cutoff and Collector entry cost', () => {
+  const event = data.events.find(event => event.id === 'direct-trk-collector');
+  const calendar = unfold(createCalendar(event, data.sources[event.sources[0]].url, now));
+  assert.match(calendar, /DTSTART:20261113T160000Z\r\n/);
+  assert.match(calendar, /DTEND:20261123T190000Z\r\n/);
+  assert.match(calendar, /Entry closes: Nov 23\\, 2026\\, 4:00 PM UTC/);
+  assert.match(calendar, /Match structure: BO1/);
+  assert.match(calendar, /Entry cost: 8\\,000 gems/);
+  assert.match(calendar, /SUMMARY:Arena Direct - Magic: The Gathering \| Star Trek Sealed\r\n/);
+  assert.match(calendar, /Matches in progress may finish/);
 });
 
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {
