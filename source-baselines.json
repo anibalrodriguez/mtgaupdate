@@ -96,14 +96,17 @@
     },
     "news": {
       "url": "https://magic.wizards.com/en/news/mtg-arena",
-      "fingerprint": "5bfa985cd5ff1fe000ebf874b28000f9960fd1b961e49f9056f0f1961d25e39c",
-      "acceptedAt": "2026-11-10T01:52:31.144Z",
+      "fingerprint": "0a93a51e4edc5dd75c176802980e15bacfff913b41737779691765ce38a2d635",
+      "acceptedAt": "2026-11-15T00:32:46.731Z",
       "links": [
         "https://magic.wizards.com/en/news/mtg-arena/announcements-november-2-2026",
         "https://magic.wizards.com/en/news/mtg-arena/announcements-november-9-2026",
+        "https://magic.wizards.com/en/news/mtg-arena/announcements-october-19-2026",
         "https://magic.wizards.com/en/news/mtg-arena/announcements-october-26-2026",
         "https://magic.wizards.com/en/news/mtg-arena/arena-direct",
-        "https://magic.wizards.com/en/news/mtg-arena/ranked-season"
+        "https://magic.wizards.com/en/news/mtg-arena/arena-powered-cube-draft",
+        "https://magic.wizards.com/en/news/mtg-arena/ranked-season",
+        "https://magic.wizards.com/en/news/mtg-arena/star-trek-event-schedule"
       ]
     },
     "announcementsOct19": {
