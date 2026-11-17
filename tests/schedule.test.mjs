@@ -189,6 +189,18 @@ test('Star Trek calendar extensions and cross-year events retain date-only bound
   assert.match(playIn.note, /not a confirmed finish date/);
 });
 
+test('Star Trek Contender uses reviewed deadlines rather than its February 1 summary heading', () => {
+  const event = data.events.find(event => event.id === 'contender-trk-season');
+  assert.equal(eventStatus(event, new Date('2026-11-23T15:59:59Z')), 'upcoming');
+  assert.equal(eventStatus(event, new Date('2026-11-23T16:00:00Z')), 'live');
+  const groups = groupEvents(data.events, { category: 'limited', search: 'contender', competitive: true }, new Date('2027-02-02T15:59:59Z'));
+  assert.deepEqual(groups.current, [event]);
+  assert.equal(eventStatus(event, new Date('2027-02-02T16:00:00Z')), 'entry-closed');
+  assert.equal(eventStatus(event, new Date('2027-02-02T19:00:00Z')), 'expired');
+  assert.match(formatDate(event.entryCloses, 'America/Los_Angeles', true), /Feb 2, 2027, 8:00 AM PST/);
+  assert.match(formatDate(event.end, 'America/Los_Angeles', true), /Feb 2, 2027, 11:00 AM PST/);
+});
+
 test('invalid dates, duplicate IDs, unsafe source URLs, and invalid cutoffs fail explicitly', () => {
   for (const mutate of [
     copy => { copy.events[0].start = '2026-02-30'; },

@@ -26,6 +26,19 @@ test('Arena news discovery detects new article URLs without flagging unrelated n
   assert.throws(() => sourceFingerprint(page('No articles'), news), /No Arena article links/);
 });
 
+test('article checks ignore related cards inside main without hiding article edits or index discoveries', () => {
+  const article = `<article><h1>Draft schedule</h1><p>${text}</p><a href="/en/news/mtg-arena/details">Details</a></article>`;
+  const related = '<aside><h3>November 9 announcements</h3><a href="/en/news/mtg-arena/announcements-november-9-2026">Read more</a></aside>';
+  const original = page(article + related);
+  const rotated = original.replaceAll('November 9', 'November 16').replaceAll('november-9', 'november-16');
+  assert.deepEqual(sourceFingerprint(original, source), sourceFingerprint(rotated, source));
+  assert.deepEqual(sourceFingerprint(original, source), sourceFingerprint(article, source));
+  assert.notEqual(sourceFingerprint(original, source).fingerprint, sourceFingerprint(original.replace('October 26', 'October 27'), source).fingerprint);
+  assert.notEqual(sourceFingerprint(original, source).fingerprint, sourceFingerprint(original.replace('/mtg-arena/details', '/mtg-arena/new-details'), source).fingerprint);
+  const news = { ...source, kind: 'arena-index' };
+  assert.notEqual(sourceFingerprint(original, news).fingerprint, sourceFingerprint(rotated, news).fingerprint);
+});
+
 test('Magic.gg rules articles are monitored without page chrome and detect format changes', async () => {
   const rules = { title: 'Official tournament rules', url: 'https://magic.gg/events/test-rules' };
   const html = `<nav>Navigation</nav><article><h2>Event Format</h2><p>Best-of-Three Draft. ${text}</p></article><footer>Footer</footer>`;

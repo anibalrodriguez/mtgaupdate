@@ -84,6 +84,17 @@ test('Star Trek Arena Direct export includes its reviewed November 23 cutoff and
   assert.match(calendar, /Matches in progress may finish/);
 });
 
+test('Star Trek Contender exports exact cross-year deadlines and the reviewed entry options', () => {
+  const event = data.events.find(event => event.id === 'contender-trk-season');
+  const calendar = unfold(createCalendar(event, data.sources[event.sources[0]].url, now));
+  assert.match(calendar, /DTSTART:20261123T160000Z\r\n/);
+  assert.match(calendar, /DTEND:20270202T190000Z\r\n/);
+  assert.match(calendar, /Entry closes: Feb 2\\, 2027\\, 4:00 PM UTC/);
+  assert.match(calendar, /Entry cost: 3\\,000 gems \/ 20\\,000 gold/);
+  assert.match(calendar, /February 1 summary heading/);
+  assert.match(calendar, /URL:https:\/\/magic.wizards.com\/en\/news\/mtg-arena\/announcements-november-16-2026\r\n/);
+});
+
 test('text escaping, UTF-8 folding, and CRLF endings preserve content without injected properties', () => {
   const name = 'Draft, sealed; café 漢字 🧙\\test\r\nBEGIN:VEVENT ' + 'é'.repeat(100);
   const calendar = createCalendar({ ...data.events[0], name }, source, now);

@@ -47,8 +47,10 @@ function scheduleEvidence(content) {
 export function sourceFingerprint(html, source) {
   const url = officialUrl(source.url);
   const cleaned = html.replace(/<!--[\s\S]*?-->|<(script|style|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '');
-  const content = cleaned.match(/<main\b[^>]*>([\s\S]*?)<\/main\s*>/i)?.[1]
+  const container = cleaned.match(/<main\b[^>]*>([\s\S]*?)<\/main\s*>/i)?.[1]
     ?? cleaned.match(/<article\b[^>]*>([\s\S]*?)<\/article\s*>/i)?.[1];
+  const content = source.kind === 'arena-index' ? container
+    : container?.match(/<article\b[^>]*>([\s\S]*?)<\/article\s*>/i)?.[1] ?? container;
   if (!content) throw new Error('Official page has no readable main or article content; review the source or checker');
   const links = [...content.matchAll(/<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)]
     .map(match => new URL(decodeEntities(match[1] ?? match[2]), url))
